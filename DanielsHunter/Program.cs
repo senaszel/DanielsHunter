@@ -6,16 +6,17 @@ namespace DanielsHunter
     {
         static void Main()
         {
-            Console.SetWindowSize(85,32);
-            Game.Set();
-            Game.Start();
+            Game newGame = new Game();
+            GameService newGameService = new GameService();
+            newGame.User = newGameService.Set(newGame);
+            newGameService.Start(newGame);
 
             int exit3 = 0;
             ConsoleKey exit;
             do
             {
                 Console.Clear();
-                Console.WriteLine(string.Concat("\r\n\r\n",new string(' ',20),Game.Outcome));
+                Console.WriteLine(string.Concat("\r\n\r\n",new string(' ',20),newGame.Outcome));
                 Console.WriteLine("\r\n\r\n3 x Escape to Quit");
                 Console.WriteLine();
                 exit = Console.ReadKey().Key;
