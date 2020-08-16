@@ -1,11 +1,8 @@
-﻿using System;
-using System.Linq;
-
-namespace DanielsHunter
+﻿namespace DanielsHunter
 {
-    class Board
+    public class Board
     {
-        public int Height { get => 20; }
+        public int Height { get => 25; }
         public int Width { get => 50; }
 
         public int Offset { get => 4; }

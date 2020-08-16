@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DanielsHunter
+﻿namespace DanielsHunter
 {
     class UserService
     {
@@ -16,13 +12,15 @@ namespace DanielsHunter
         public Board Place(Game game)
         {
             BoardService boardService = new BoardService(game.Board);
+            TreeService treeService = new TreeService();
 
             if (game.Board.View[User.UserY].Substring(User.UserX, 1) == "d")
             {
                 User.Meat += 10;
-                game.TurnCounter -= 20;
-                game.Board.View = boardService.PlaceDaniel();
-                game.Board = boardService.GrowTrees(User.UserX, User.UserY);
+                game.User.Provisions += 21;
+                game = boardService.GenerateUpperScreen(game);
+                game.Board = boardService.PlaceDaniel();
+                game.Board = treeService.GrowTrees(game.Board, User.UserX, User.UserY);
             }
             game.Board = ScratchLastPlayerPosition(game.Board);
             game.Board.View[User.UserY] = game.Board.View[User.UserY].Insert(User.UserX, "@").Remove(User.UserX + 1, 1);
@@ -32,7 +30,7 @@ namespace DanielsHunter
 
         static Board ScratchLastPlayerPosition(Board board)
         {
-            for (int i = 0; i < board.View.Length; i++)
+            for (int i = 5; i < board.View.Length; i++)
             {
                 for (int j = 0; j < board.View[i].Length; j++)
                 {

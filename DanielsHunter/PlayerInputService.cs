@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DanielsHunter
 {
-    class PlayerService
+    static class PlayerInputService
     {
 
-        public static ConsoleKey GetPlayersInput(Game game, ConsoleKey exit)
+        public static ConsoleKey GetPlayersInput(Game game)
         {
-            switch (exit)
+            ConsoleKey playersKeyInput = Console.ReadKey(true).Key;
+
+            switch (playersKeyInput)
             {
                 case ConsoleKey.UpArrow:
                     if (game.User.UserY - 1 != 0)
@@ -35,20 +35,17 @@ namespace DanielsHunter
                         if (game.Board.View[game.User.UserY].Substring(game.User.UserX + 1, 1) != "#") { game.User.UserX += 1; }
                     }
                     break;
+                case ConsoleKey.Escape:
+                    break;
                 default:
+                    GetPlayersInput(game);
                     break;
             }
-            return exit;
+
+            return playersKeyInput;
         }
 
-        public static void PrintUpperScreen(int Provisions, int Meat)
-        {
-            Console.WriteLine("\r\n");
-            Console.WriteLine(string.Concat(new string(' ', 20), "D A N I E L S   H U N T E R :"));
-            Console.WriteLine("\r\n");
-            Console.WriteLine($"Provision's Left: {Provisions}\t\t\t\t\tAquired Meat: {Meat}");
-            Console.WriteLine("\r\n");
-        }
+       
 
     }
 }

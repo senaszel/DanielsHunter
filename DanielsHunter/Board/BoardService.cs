@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 
 namespace DanielsHunter
 {
-    class BoardService
+    public class BoardService
     {
         public Board Board { get; set; }
 
@@ -12,14 +12,27 @@ namespace DanielsHunter
             Board = board;
         }
 
-        public string[] Generate()
+        public Game GenerateUpperScreen(Game game)
+        {
+            Board.View[0] = "\r\n";
+            Board.View[1] = (string.Concat(new string(' ', 20), "D A N I E L S   H U N T E R :"));
+
+            string middle = game.Outcome == GameOutcome.PENDING ? "pending" : (game.Outcome == GameOutcome.LOOSE ? "You have Lost!" : "You Won!");
+            Board.View[2] = $"\t\t\t\t{middle}";
+
+            Board.View[3] = $"Provision's Left: {game.User.Provisions}\t\t\t\t\tAquired Meat: {game.User.Meat}";
+            Board.View[4] = "\r\n";
+            return game;
+        }
+
+        public Board GenerateLowerScreen()
         {
             Board.View = new string[Board.Height + 1];
 
-            Console.WriteLine(string.Concat(System.Linq.Enumerable.Repeat("\r\n", Board.Offset)));
-            for (int i = 0; i <= Board.Height; i++)
+            Console.WriteLine(string.Concat(Enumerable.Repeat("\r\n", Board.Offset)));
+            for (int i = 5; i <= Board.Height; i++)
             {
-                if (i == 0 || i == Board.Height)
+                if (i == 5 || i == Board.Height)
                 {
                     Board.View[i] = string.Concat(new string(' ', Board.Offset * 2), new string('#', Board.Width));
                 }
@@ -28,40 +41,32 @@ namespace DanielsHunter
                     Board.View[i] = string.Concat(new string(' ', Board.Offset * 2), '#', new string(' ', Board.Width - 2), '#');
                 }
             }
-            return Board.View;
+            return Board;
         }
 
-        public string[] PlaceDaniel()
+        public Board PlaceDaniel()
         {
             Random random = new Random();
 
-            int danielX = random.Next(9, 57);
-            int danielY = random.Next(1, 20);
-            if (Board.View[danielY].Substring(danielX, 1) != "@" || Board.View[danielY].Substring(danielX, 1) != "#")
+            int danielX = random.Next(14, 57);
+            int danielY = random.Next(6, 20);
+            SymbolRepository symbolRepository = new SymbolRepository();
+            foreach (string symbol in symbolRepository.Symbols)
             {
-                Board.View[danielY] = Board.View[danielY].Insert(danielX, "d").Remove(danielX + 1, 1);
-            }
-            else PlaceDaniel();
+                if (Board.View[danielY].Substring(danielX, 1) != symbol)
+                {
+                    Board.View[danielY] = Board.View[danielY].Insert(danielX, "d").Remove(danielX + 1, 1);
+                }
+            };
 
-            return Board.View;
-        }
-
-        public Board GrowTrees(int userX, int userY)
-        {
-            Board.View[userY - 1] = Board.View[userY - 1].Insert(userX - 1, "#").Remove(userX, 1);
-            Board.View[userY + 1] = Board.View[userY + 1].Insert(userX - 1, "#").Remove(userX, 1);
-
-            Board.View[userY - 1] = Board.View[userY - 1].Insert(userX + 1, "#").Remove(userX + 2, 1);
-            Board.View[userY + 1] = Board.View[userY + 1].Insert(userX + 1, "#").Remove(userX + 2, 1);
             return Board;
         }
 
         public void Draw()
         {
-            for (int i = 0; i < Board.View.Length; i++)
-            {
-                Console.WriteLine(Board.View[i]);
-            }
+            Console.CursorVisible = false;
+            string scene = string.Join('\n', Board.View);
+            Console.Write(scene);
         }
     }
 }

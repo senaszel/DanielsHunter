@@ -6,9 +6,19 @@ namespace DanielsHunter
     {
         static void Main()
         {
+            MainMenu mainMenu = new MainMenu("MainMenu");
+            MenuService menuService = new MenuService(mainMenu);
+            menuService.ServeMenu();
+            
+            Console.ReadKey();
+            Console.WriteLine("zjebałes");
+            Console.ReadKey();
+
+            Console.CursorVisible = false;
+
             Game newGame = new Game();
             GameService newGameService = new GameService();
-            newGame.User = newGameService.Set(newGame);
+            newGame = newGameService.Set(newGame);
             newGameService.Start(newGame);
 
             int exit3 = 0;
@@ -16,9 +26,8 @@ namespace DanielsHunter
             do
             {
                 Console.Clear();
-                Console.WriteLine(string.Concat("\r\n\r\n",new string(' ',20),newGame.Outcome));
-                Console.WriteLine("\r\n\r\n3 x Escape to Quit");
-                Console.WriteLine();
+                Console.WriteLine($"\t\t{newGame.Outcome}");
+                Console.WriteLine($"\t3 x Escape to Quit");
                 exit = Console.ReadKey().Key;
                 if (exit == ConsoleKey.Escape) { exit3 += 1; }
 
