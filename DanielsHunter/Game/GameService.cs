@@ -4,61 +4,63 @@ namespace DanielsHunter
 {
     class GameService
     {
-        public void Start(Game game)
+        Game Game;
+
+        public GameService(Game game)
         {
-            UserService userService = new UserService(game.User);
-            BoardService boardService = new BoardService(game.Board);
+            Game = game;
+        }
+        public void Start()
+        {
+            UserService userService = new UserService(Game.User);
+            BoardService boardService = new BoardService(Game.Board);
 
             ConsoleKey playersKeyInput = ConsoleKey.Enter;
             do
             {
-                game = boardService.GenerateUpperScreen(game);
-                boardService.Draw();
-
-                game.TurnCounter += 1;
-                game.User.Provisions -= 1;
+                Game.TurnCounter += 1;
+                Game.User.Provisions -= 1;
 
                 Console.Clear();
 
-                if (game.User.Meat == 300)
+                if (Game.User.Meat == 300)
                 {
-                    game.Outcome = GameOutcome.WON;
-                    //game.Board = PlayerService.GenerateUpperScreen(game);
+                    Game.Outcome = GameOutcome.WON;
                     playersKeyInput = ConsoleKey.Escape;
                 }
 
-                if (game.User.Provisions == 0)
+                if (Game.User.Provisions == 0)
                 {
-                    game.Outcome = GameOutcome.LOOSE;
-                    //game.Board = PlayerService.GenerateUpperScreen(game);
+                    Game.Outcome = GameOutcome.LOOSE;
                     playersKeyInput = ConsoleKey.Escape;
                 }
 
-                if (game.Outcome == GameOutcome.PENDING)
+                if (Game.Outcome == GameOutcome.PENDING)
                 {
-                    game.Board = userService.Place(game);
-                    game = boardService.GenerateUpperScreen(game);
-                    boardService.Draw();
-                    playersKeyInput = PlayerInputService.GetPlayersInput(game);
+                    Game.Board = userService.Place(Game);
+                    boardService.GenerateUpperScreen(Game);
+                    boardService.DrawScreen();
+                    playersKeyInput = PlayerInputService.GetPlayersInput(Game);
                 }
 
             } while (playersKeyInput != ConsoleKey.Escape);
         }
 
-        public Game Set(Game game)
+        public Game Set()
         {
-            BoardService boardService = new BoardService(game.Board);
-            game.User = new User()
+            BoardService boardService = new BoardService(Game.Board);
+            Game.User = new User()
             {
                 Provisions = 101,
                 Meat = 0,
-                UserX = 25,
-                UserY = 10
+                UserX = Game.Board.Width/2,
+                UserY = Game.Board.Height/2
             };
-            game = boardService.GenerateUpperScreen(game);
-            game.Board = boardService.GenerateLowerScreen();
+            boardService.GenerateUpperScreen(Game);
+            Game.Board.PlayArea[Game.User.UserY] = Game.Board.PlayArea[Game.User.UserY].Insert(Game.User.UserX, "@").Remove(Game.User.UserX + 1, 1);
+            Game.Board = boardService.DrawBoard();
             boardService.PlaceDaniel();
-            return game;
+            return Game;
         }
     }
 }

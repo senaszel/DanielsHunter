@@ -23,6 +23,15 @@ namespace DanielsHunter
                 case ConsoleKey.DownArrow:
                     NextItem();
                     break;
+                case ConsoleKey.Enter:
+                    if (ChosenItem.Name== "1 Plansza")
+                    {
+                        Console.Clear();
+                        Console.WriteLine("1 MIsja");
+                        Console.ReadKey();
+                    }
+                    Menu.Close = true;
+                    break;
                 default:
                     EnableChoice();
                     break;
@@ -60,10 +69,11 @@ namespace DanielsHunter
             }
         }
 
-        private MenuItem ChosenItem
+        public MenuItem ChosenItem
         {
             get { return Menu.MenuItems.FirstOrDefault(x => x.IsChosen == true); }
         }
+
         private int ChosenItemIndex
         {
             get { return Menu.MenuItems.IndexOf(ChosenItem); }
@@ -100,6 +110,7 @@ namespace DanielsHunter
             }
         }
 
+       
     }
 }
 

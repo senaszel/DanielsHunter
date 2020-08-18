@@ -6,32 +6,16 @@ namespace DanielsHunter
     {
         static void Main()
         {
-            MainMenu mainMenu = new MainMenu("MainMenu");
-            MenuService menuService = new MenuService(mainMenu);
-            menuService.ServeMenu();
+            //MainMenu mainMenu = new MainMenu("MainMenu");
+            //MenuService menuService = new MenuService(mainMenu);
+            //menuService.ServeMenu();
             
-            Console.ReadKey();
-            Console.WriteLine("zjebałes");
-            Console.ReadKey();
 
-            Console.CursorVisible = false;
+            GameService newGameService = new GameService(new Game());
+            newGameService.Set();
+            newGameService.Start();
 
-            Game newGame = new Game();
-            GameService newGameService = new GameService();
-            newGame = newGameService.Set(newGame);
-            newGameService.Start(newGame);
-
-            int exit3 = 0;
-            ConsoleKey exit;
-            do
-            {
-                Console.Clear();
-                Console.WriteLine($"\t\t{newGame.Outcome}");
-                Console.WriteLine($"\t3 x Escape to Quit");
-                exit = Console.ReadKey().Key;
-                if (exit == ConsoleKey.Escape) { exit3 += 1; }
-
-            } while (exit3 < 3);
+            Common.Quit(ConsoleKey.Escape, 3);
         }
     }
 }

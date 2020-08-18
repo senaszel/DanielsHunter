@@ -2,15 +2,26 @@
 {
     public class Board
     {
-        public int Height { get => 25; }
-        public int Width { get => 50; }
+        public int Height { get; set; }
+        public int Width { get; set; }
 
-        public int Offset { get => 4; }
+        public int Offset { get; set; }
         public string[] View { get; set; }
+        public string[] PlayArea { get; set; }
+        public string[] Header { get; set; }
+        public string[] CommStrip { get; set; }
+        public string[] Footer { get; set; }
 
-        public Board()
+        public Board(int height, int width, int offset, int headerLength, int commStripLength, int viewLength, int footerLength)
         {
-            View = new string[Height + 1];
+            Height = height;
+            Width = width;
+            Offset = offset;
+            View = new string[viewLength + 2];
+            PlayArea = new string[viewLength];
+            Header = new string[headerLength];
+            CommStrip = new string[commStripLength];
+            Footer = new string[footerLength];
         }
     }
 }

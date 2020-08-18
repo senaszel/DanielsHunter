@@ -11,7 +11,7 @@
         {
             TurnCounter = 0;
             Outcome = GameOutcome.PENDING;
-            Board = new Board();
+            Board = new Board(height: 25, width: 50, offset: 10, headerLength: 3, commStripLength: 4, viewLength: 25, footerLength: 3);
             User = new User();
         }
     }

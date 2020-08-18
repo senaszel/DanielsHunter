@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DanielsHunter
 {
-   public class Tree
+   public class Tree 
     {
         public string Symbol { get => "#"; }
 

@@ -12,44 +12,43 @@ namespace DanielsHunter
             Board = board;
         }
 
-        public Game GenerateUpperScreen(Game game)
+        public void GenerateUpperScreen(Game game)
         {
-            Board.View[0] = "\r\n";
-            Board.View[1] = (string.Concat(new string(' ', 20), "D A N I E L S   H U N T E R :"));
+            Board.Header[0] = "\r\n";
+            Board.Header[1] = (string.Concat(new string(' ', 20), "D A N I E L S   H U N T E R :"));
+            Board.Header[2] = "\r\n";
 
-            string middle = game.Outcome == GameOutcome.PENDING ? "pending" : (game.Outcome == GameOutcome.LOOSE ? "You have Lost!" : "You Won!");
-            Board.View[2] = $"\t\t\t\t{middle}";
-
-            Board.View[3] = $"Provision's Left: {game.User.Provisions}\t\t\t\t\tAquired Meat: {game.User.Meat}";
-            Board.View[4] = "\r\n";
-            return game;
+            Board.CommStrip[0] = "\r\n";
+            Board.CommStrip[1] = $"\t\t\t\tX : {game.User.UserX}\tY : {game.User.UserY}";
+            Board.CommStrip[2] = $"Provision's Left: {game.User.Provisions}\t\t\t\t\tAquired Meat: {game.User.Meat}";
+            Board.CommStrip[3] = "\r\n";
         }
 
-        public Board GenerateLowerScreen()
+        public Board DrawBoard()
         {
-            Board.View = new string[Board.Height + 1];
-
-            Console.WriteLine(string.Concat(Enumerable.Repeat("\r\n", Board.Offset)));
-            for (int i = 5; i <= Board.Height; i++)
+            int upperBoarder = 0;
+            int lowerBoarder = Board.View.Length;
+            for (int i = upperBoarder; i < lowerBoarder; i++)
             {
-                if (i == 5 || i == Board.Height)
+                if (i == upperBoarder || i == lowerBoarder - 1)
                 {
-                    Board.View[i] = string.Concat(new string(' ', Board.Offset * 2), new string('#', Board.Width));
+                    Board.View[i] = string.Concat(new string(' ', Board.Offset), new string('#', Board.Width + 2));
                 }
                 else
                 {
-                    Board.View[i] = string.Concat(new string(' ', Board.Offset * 2), '#', new string(' ', Board.Width - 2), '#');
+                    Board.PlayArea[i - 1] = new string(' ', Board.Width);
+                    Board.View[i] = string.Concat(new string(' ', Board.Offset), '#', Board.PlayArea[i - 1], '#');
                 }
             }
             return Board;
         }
 
-        public Board PlaceDaniel()
+        public void PlaceDaniel()
         {
             Random random = new Random();
 
-            int danielX = random.Next(14, 57);
-            int danielY = random.Next(6, 20);
+            int danielX = random.Next(0, Board.Width + 1);
+            int danielY = random.Next(0, Board.Height + 1);
             SymbolRepository symbolRepository = new SymbolRepository();
             foreach (string symbol in symbolRepository.Symbols)
             {
@@ -58,15 +57,13 @@ namespace DanielsHunter
                     Board.View[danielY] = Board.View[danielY].Insert(danielX, "d").Remove(danielX + 1, 1);
                 }
             };
-
-            return Board;
         }
 
-        public void Draw()
+        public void DrawScreen()
         {
             Console.CursorVisible = false;
-            string scene = string.Join('\n', Board.View);
-            Console.Write(scene);
+            string screen = string.Concat(string.Join('\n', Board.Header), string.Join('\n', Board.CommStrip), string.Join('\n', Board.View), string.Join('\n', Board.Footer));
+            Console.Write(screen);
         }
     }
 }
