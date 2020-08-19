@@ -4,63 +4,80 @@ namespace DanielsHunter
 {
     class GameService
     {
-        Game Game;
+        GameState GameState;
+        UserService UserService;
+        BoardService BoardService;
+        ScreenService ScreenService;
 
-        public GameService(Game game)
+        public GameService(GameState gameState)
         {
-            Game = game;
+            GameState = gameState;
+            UserService = new UserService(new User());
+            BoardService = new BoardService(new Board(height: 25, width: 50, offset: 10, new Screen(headerLength: 3, commStripLength: 4, viewLength: 25, footerLength: 3)));
+            ScreenService = new ScreenService(BoardService.Board.Screen);
         }
         public void Start()
         {
-            UserService userService = new UserService(Game.User);
-            BoardService boardService = new BoardService(Game.Board);
 
             ConsoleKey playersKeyInput = ConsoleKey.Enter;
             do
             {
-                Game.TurnCounter += 1;
-                Game.User.Provisions -= 1;
+                GameState.TurnCounter += 1;
+                UserService.User.Provisions -= 1;
 
                 Console.Clear();
 
-                if (Game.User.Meat == 300)
+                if (UserService.User.Meat == 300)
                 {
-                    Game.Outcome = GameOutcome.WON;
+                    GameState.Outcome = GameOutcome.WON;
                     playersKeyInput = ConsoleKey.Escape;
                 }
 
-                if (Game.User.Provisions == 0)
+                if (UserService.User.Provisions == 0)
                 {
-                    Game.Outcome = GameOutcome.LOOSE;
+                    GameState.Outcome = GameOutcome.LOOSE;
                     playersKeyInput = ConsoleKey.Escape;
                 }
 
-                if (Game.Outcome == GameOutcome.PENDING)
+                if (GameState.Outcome == GameOutcome.PENDING)
                 {
-                    Game.Board = userService.Place(Game);
-                    boardService.GenerateUpperScreen(Game);
-                    boardService.DrawScreen();
-                    playersKeyInput = PlayerInputService.GetPlayersInput(Game);
+                    //todo co tutaj robi podnoszenie przedmiotu przemyslec przeniesc w odpowiednie miejsce
+                    if (BoardService.Board.Screen.PlayArea[UserService.User.UserY].Substring(UserService.User.UserX, 1) == "d")
+                    {
+                        UserService.User.Meat += 10;
+                        UserService.User.Provisions += 21;
+                        ScreenService.GenerateUpperScreen(UserService.User);
+                        new DanielService().PlaceDaniel(BoardService.Board);
+                        new TreeService().GrowTrees(BoardService.Board, UserService.User);
+                    }
+                    //BoardService.Board = UserService.ScratchLastPlayerPosition(BoardService.Board);
+                    BoardService.Board = UserService.PlaceUserOnABoard(BoardService.Board);
+
+                    BoardService.Board.Screen = ScreenService.GenerateUpperScreen(UserService.User);
+                    ScreenService.GeneratePlayArea(BoardService.Board);
+                    Console.WriteLine(ScreenService.GenerateScreen());
+
+                    Console.ReadKey();
+
+                    playersKeyInput = PlayerInputService.GetPlayersInput(BoardService.Board, UserService.User);
                 }
 
             } while (playersKeyInput != ConsoleKey.Escape);
         }
 
-        public Game Set()
+        public void Set()
         {
-            BoardService boardService = new BoardService(Game.Board);
-            Game.User = new User()
+            UserService.User = new User()
             {
                 Provisions = 101,
                 Meat = 0,
-                UserX = Game.Board.Width/2,
-                UserY = Game.Board.Height/2
+                UserX = BoardService.Board.Width / 2,
+                UserY = BoardService.Board.Height / 2
             };
-            boardService.GenerateUpperScreen(Game);
-            Game.Board.PlayArea[Game.User.UserY] = Game.Board.PlayArea[Game.User.UserY].Insert(Game.User.UserX, "@").Remove(Game.User.UserX + 1, 1);
-            Game.Board = boardService.DrawBoard();
-            boardService.PlaceDaniel();
-            return Game;
+            BoardService.Board.Screen = ScreenService.GenerateUpperScreen(UserService.User);
+            ScreenService.GeneratePlayArea(BoardService.Board);
+            BoardService.Board = UserService.PlaceUserOnABoard(BoardService.Board);
+            new DanielService().PlaceDaniel(BoardService.Board);
         }
     }
 }

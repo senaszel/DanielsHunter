@@ -11,6 +11,7 @@ namespace DanielsHunter
             do
             {
                 Console.Clear();
+                Console.CursorVisible = false;
                 Console.WriteLine($"\r\n\r\n\t\tPress {whichKeyEscapes} {howManyTimes} times to Quit");
                 exit = Console.ReadKey().Key;
                 if (exit == ConsoleKey.Escape) { exit3 += 1; }

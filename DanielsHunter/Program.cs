@@ -6,12 +6,16 @@ namespace DanielsHunter
     {
         static void Main()
         {
-            //MainMenu mainMenu = new MainMenu("MainMenu");
-            //MenuService menuService = new MenuService(mainMenu);
-            //menuService.ServeMenu();
-            
+            //BoardService testboardserv = new BoardService(new Board(height: 25, width: 50, offset: 10, new Screen(headerLength: 3, commStripLength: 4, viewLength: 25, footerLength: 3)));
+            //ScreenService screenService = new ScreenService(testboardserv.Board.Screen);
+            //screenService.GeneratePlayArea(testboardserv.Board);
+            //string screen = screenService.GenerateScreen();
+            //Console.WriteLine(screen);
 
-            GameService newGameService = new GameService(new Game());
+            //Console.WriteLine("\t\t!!!!!!!!!!!!!");
+            //Console.ReadKey();
+
+            GameService newGameService = new GameService(new GameState());
             newGameService.Set();
             newGameService.Start();
 
