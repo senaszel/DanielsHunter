@@ -1,22 +1,22 @@
-﻿namespace DanielsHunter
+﻿using System.Linq.Expressions;
+
+namespace DanielsHunter
 {
     public class Screen
     {
         public string[] View { get; set; }
-        public string[] PlayArea { get; set; }
+        public Board Board { get; set; }
         public string[] Header { get; set; }
         public string[] CommStrip { get; set; }
         public string[] Footer { get; set; }
 
-
-        public Screen(int headerLength, int commStripLength, int viewLength, int footerLength)
+        public Screen(int headerLength, int commStripLength, int viewLength, int footerLength, Board board)
         {
             View = new string[viewLength + 2];
-            PlayArea = new string[viewLength];
             Header = new string[headerLength];
             CommStrip = new string[commStripLength];
+            Board = board;
             Footer = new string[footerLength];
-
         }
     }
 }

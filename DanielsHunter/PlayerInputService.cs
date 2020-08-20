@@ -7,56 +7,67 @@ namespace DanielsHunter
 
         public static ConsoleKey GetPlayersInput(Board board, User user)
         {
+            var playArea = board.PlayArea;
+            var y = user.UserY;
+            var x = user.UserX;
             ConsoleKey playersKeyInput = Console.ReadKey(true).Key;
 
             switch (playersKeyInput)
             {
                 case ConsoleKey.NumPad1:
-                    if (user.UserX - 1 != 4 || user.UserY - 1 != 5)
+                    if ((x - 1 > 0) && (y + 1 < board.Height))
                     {
-                        if (board.Screen.View[user.UserY - 1].Substring(user.UserX - 1, 1) != "#") { user.UserY += 1; user.UserX -= 1; }
-                    }
-                    break;
-                case ConsoleKey.NumPad3:
-                    if (user.UserX + 1 != 57 || user.UserY - 1 != 8)
-                    {
-                        if (board.Screen.View[user.UserY + 1].Substring(user.UserX - 1, 1) != "#") { user.UserY -= 1; user.UserX += 1; }
-                    }
-                    break;
-                case ConsoleKey.NumPad8:
-                    if (user.UserY - 1 != 0)
-                    {
-                        if (board.Screen.View[user.UserY - 1].Substring(user.UserX, 1) != "#") { user.UserY -= 1; }
+                        if (playArea[y + 1].Substring(x - 1, 1) != "#") { x -= 1; y += 1; }
                     }
                     break;
                 case ConsoleKey.NumPad2:
-                    if (user.UserY + 1 != board.Height)
+                    if (y + 1 < board.Height)
                     {
-                        if (board.Screen.View[user.UserY + 1].Substring(user.UserX, 1) != "#") { user.UserY += 1; }
+                        if (playArea[y + 1].Substring(x, 1) != "#") { y += 1; }
                     }
                     break;
-                case ConsoleKey.NumPad7:
-                    if (user.UserX - 1 != 8 || user.UserY + 1 != 5)
+                case ConsoleKey.NumPad3:
+                    if ((x + 1 < board.Width) && (y + 1 < board.Height))
                     {
-                        if (board.Screen.View[user.UserY + 1].Substring(user.UserX - 1, 1) != "#") { user.UserY -= 1; user.UserX -= 1; }
+                        if (playArea[y + 1].Substring(x + 1, 1) != "#") { x += 1; y += 1; }
                     }
                     break;
                 case ConsoleKey.NumPad4:
-                    if (user.UserX - 1 != 8)
+                    if (x - 1 >= 0)
                     {
-                        if (board.Screen.View[user.UserY].Substring(user.UserX - 1, 1) != "#") { user.UserX -= 1; }
+                        if (playArea[y].Substring(x - 1, 1) != "#") { x -= 1; }
                     }
                     break;
                 case ConsoleKey.NumPad6:
-                    if (user.UserX + 1 != 57)
+                    if (x + 1 < board.Width)
                     {
-                        if (board.Screen.View[user.UserY].Substring(user.UserX + 1, 1) != "#") { user.UserX += 1; }
+                        if (playArea[y].Substring(x + 1, 1) != "#") { x += 1; }
+                    }
+                    break;
+                case ConsoleKey.NumPad7:
+                    if ((x - 1 > 0) && (y - 1 >= 0))
+                    {
+                        if (playArea[y - 1].Substring(x - 1, 1) != "#") { x -= 1; y -= 1; }
+                    }
+                    break;
+                case ConsoleKey.NumPad8:
+                    if (y - 1 >= 0)
+                    {
+                        if (playArea[y - 1].Substring(x, 1) != "#") { y -= 1; }
+                    }
+                    break;
+                case ConsoleKey.NumPad9:
+                    if ((x + 1 < board.Width) && (y - 1 >= 0))
+                    {
+                        if (playArea[y - 1].Substring(x + 1, 1) != "#") { x += 1; y -= 1; }
                     }
                     break;
                 case ConsoleKey.Escape:
                     break;
             }
 
+            user.UserX = x;
+            user.UserY = y;
             return playersKeyInput;
         }
 

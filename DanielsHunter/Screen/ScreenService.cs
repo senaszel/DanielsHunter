@@ -9,12 +9,34 @@
             Screen = screen;
         }
 
-        public string GenerateScreen()
+        public void Update(Board board)
         {
-            //Console.CursorVisible = false;
+            Screen.Board = board;
+            GenerateView();
+        }
+
+        public void GenerateView()
+        {
+            int upperBoarder = 0;
+            int lowerBoarder = Screen.Board.Height + 1;
+            for (int i = upperBoarder; i <= lowerBoarder; i++)
+            {
+                if (i == upperBoarder || i == lowerBoarder)
+                {
+                    Screen.View[i] = string.Concat(new string(' ', Screen.Board.Offset), new string('#', Screen.Board.Width + 2));
+                }
+                else
+                {
+                    Screen.View[i] = string.Concat(new string(' ', Screen.Board.Offset), '#', Screen.Board.PlayArea[i - 1], '#');
+                }
+            }
+        }
+
+        public string ShowScreen()
+        {
+            GenerateView();
             string screen = string.Concat(string.Join('\n', Screen.Header), string.Join('\n', Screen.CommStrip), string.Join('\n', Screen.View), string.Join('\n', Screen.Footer));
             return screen;
-            //Console.Write(screen);
         }
 
         public Screen GenerateUpperScreen(User user)
@@ -41,26 +63,25 @@
             return Screen;
         }
 
-        public Screen GeneratePlayArea(Board board)
+        public void InitialisePlayArea()
         {
             int upperBoarder = 0;
-            int lowerBoarder = board.Height + 1;
+            int lowerBoarder = Screen.Board.Height + 1;
             for (int i = upperBoarder; i <= lowerBoarder; i++)
             {
                 if (i == upperBoarder || i == lowerBoarder)
                 {
-                    Screen.View[i] = string.Concat(new string(' ', board.Offset), new string('#', board.Width + 2));
+                    Screen.View[i] = string.Concat(new string(' ', Screen.Board.Offset), new string('#', Screen.Board.Width + 2));
                 }
                 else
                 {
-                    if (i <= Screen.PlayArea.Length)
+                    if (i <= Screen.Board.Width)
                     {
-                        Screen.PlayArea[i - 1] = new string(' ', board.Width);
+                        Screen.Board.PlayArea[i - 1] = new string(' ', Screen.Board.Width);
                     }
-                    Screen.View[i] = string.Concat(new string(' ', board.Offset), '#', Screen.PlayArea[i - 1], '#');
+                    Screen.View[i] = string.Concat(new string(' ', Screen.Board.Offset), '#', Screen.Board.PlayArea[i - 1], '#');
                 }
             }
-            return Screen;
         }
     }
 }

@@ -6,19 +6,18 @@ namespace DanielsHunter
     {
         GameState GameState;
         UserService UserService;
-        BoardService BoardService;
         ScreenService ScreenService;
 
         public GameService(GameState gameState)
         {
             GameState = gameState;
             UserService = new UserService(new User());
-            BoardService = new BoardService(new Board(height: 25, width: 50, offset: 10, new Screen(headerLength: 3, commStripLength: 4, viewLength: 25, footerLength: 3)));
-            ScreenService = new ScreenService(BoardService.Board.Screen);
+            ScreenService = new ScreenService(new Screen(3, 4, 25, 3, new Board(25, 50, 8)));
         }
         public void Start()
         {
-
+            Console.CursorVisible = false;
+            Console.WriteLine(ScreenService.ShowScreen());
             ConsoleKey playersKeyInput = ConsoleKey.Enter;
             do
             {
@@ -42,24 +41,21 @@ namespace DanielsHunter
                 if (GameState.Outcome == GameOutcome.PENDING)
                 {
                     //todo co tutaj robi podnoszenie przedmiotu przemyslec przeniesc w odpowiednie miejsce
-                    if (BoardService.Board.Screen.PlayArea[UserService.User.UserY].Substring(UserService.User.UserX, 1) == "d")
+                    if (ScreenService.Screen.Board.PlayArea[UserService.User.UserY].Substring(UserService.User.UserX, 1) == "d")
                     {
                         UserService.User.Meat += 10;
                         UserService.User.Provisions += 21;
                         ScreenService.GenerateUpperScreen(UserService.User);
-                        new DanielService().PlaceDaniel(BoardService.Board);
-                        new TreeService().GrowTrees(BoardService.Board, UserService.User);
+                        ScreenService.Update(new BoardService(ScreenService.Screen.Board).PlaceDaniel());
+                        new TreeService().GrowTrees(ScreenService.Screen.Board, UserService.User);
                     }
-                    //BoardService.Board = UserService.ScratchLastPlayerPosition(BoardService.Board);
-                    BoardService.Board = UserService.PlaceUserOnABoard(BoardService.Board);
+                    ScreenService.Update(new BoardService(ScreenService.Screen.Board).PlaceUserOnABoard(UserService.User));
+                    ScreenService.GenerateUpperScreen(UserService.User);
+                    ScreenService.GenerateView();
+                    Console.WriteLine(ScreenService.ShowScreen());
 
-                    BoardService.Board.Screen = ScreenService.GenerateUpperScreen(UserService.User);
-                    ScreenService.GeneratePlayArea(BoardService.Board);
-                    Console.WriteLine(ScreenService.GenerateScreen());
-
-                    Console.ReadKey();
-
-                    playersKeyInput = PlayerInputService.GetPlayersInput(BoardService.Board, UserService.User);
+                    ScreenService.Update(new BoardService(ScreenService.Screen.Board).ScratchLastPlayerPosition(UserService.User));
+                    playersKeyInput = PlayerInputService.GetPlayersInput(ScreenService.Screen.Board, UserService.User);
                 }
 
             } while (playersKeyInput != ConsoleKey.Escape);
@@ -71,13 +67,13 @@ namespace DanielsHunter
             {
                 Provisions = 101,
                 Meat = 0,
-                UserX = BoardService.Board.Width / 2,
-                UserY = BoardService.Board.Height / 2
+                UserX = ScreenService.Screen.Board.Width / 2,
+                UserY = ScreenService.Screen.Board.Height / 2
             };
-            BoardService.Board.Screen = ScreenService.GenerateUpperScreen(UserService.User);
-            ScreenService.GeneratePlayArea(BoardService.Board);
-            BoardService.Board = UserService.PlaceUserOnABoard(BoardService.Board);
-            new DanielService().PlaceDaniel(BoardService.Board);
+            ScreenService.GenerateUpperScreen(UserService.User);
+            ScreenService.InitialisePlayArea();
+            ScreenService.Update(new BoardService(ScreenService.Screen.Board).PlaceUserOnABoard(UserService.User));
+            ScreenService.Update(new BoardService(ScreenService.Screen.Board).PlaceDaniel());
         }
     }
 }

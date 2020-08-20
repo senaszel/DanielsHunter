@@ -5,14 +5,15 @@
         public int Height { get; set; }
         public int Width { get; set; }
         public int Offset { get; set; }
-        public Screen Screen { get; set; }
+        public string[] PlayArea { get; set; }
 
-        public Board(int height, int width, int offset, Screen screen)
+
+        public Board(int height, int width, int offset)
         {
             Height = height;
             Width = width;
             Offset = offset;
-            Screen = screen;
+            PlayArea = new string[height];
         }
     }
 }

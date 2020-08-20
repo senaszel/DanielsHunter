@@ -10,7 +10,7 @@ namespace DanielsHunter
             ConsoleKey exit;
             do
             {
-                Console.Clear();
+             //   Console.Clear();
                 Console.CursorVisible = false;
                 Console.WriteLine($"\r\n\r\n\t\tPress {whichKeyEscapes} {howManyTimes} times to Quit");
                 exit = Console.ReadKey().Key;
