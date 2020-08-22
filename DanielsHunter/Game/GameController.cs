@@ -24,7 +24,7 @@ namespace DanielsHunter
             ConsoleKey playersKeyInput = ConsoleKey.Enter;
             do
             {
-                GameState.TurnCounter += 1;
+                GameStateController.AdvanceCounter(1);
                 UserService.User.Provisions -= 1;
 
                 Console.Clear();

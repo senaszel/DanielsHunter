@@ -13,6 +13,12 @@ namespace DanielsHunter
         {
             GameController = gameController;
         }
+
+        public void AdvanceCounter(int time)
+        {
+            GameController.GameState.TurnCounter += time;
+        }
+
         public void CheckIfEnoughCollected()
         {
             if (MeatCollectionCondtition(GameController.UserService.User.Meat))

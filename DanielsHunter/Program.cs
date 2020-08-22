@@ -6,6 +6,8 @@ namespace DanielsHunter
     {
         static void Main()
         {
+            Common.Intro();
+            Common.TitleScreen();
             new GameController().Set().Start();
         }
     }
