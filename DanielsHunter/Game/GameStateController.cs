@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DanielsHunter.Game
+namespace DanielsHunter
 {
     public class GameStateController
     {

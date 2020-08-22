@@ -1,5 +1,4 @@
-﻿using DanielsHunter.Game;
-using System;
+﻿using System;
 
 namespace DanielsHunter
 {
@@ -15,7 +14,7 @@ namespace DanielsHunter
             UserService = new UserService(new User());
             ScreenService = new ScreenController(new Screen(3, 4, 25, 3, new Board(25, 50, 8)));
         }
-        public void Start()
+        public GameController Start()
         {
             ScreenService.ShowScreen();
             ConsoleKey playersKeyInput = ConsoleKey.Enter;
@@ -51,11 +50,12 @@ namespace DanielsHunter
                 }
 
             } while (playersKeyInput != ConsoleKey.Escape);
+            return this;
         }
 
         
 
-        public void Set()
+        public GameController Set()
         {
             UserService.User = new User()
             {
@@ -68,6 +68,7 @@ namespace DanielsHunter
             ScreenService.InitialisePlayArea();
             ScreenService.Update(new BoardService(ScreenService.Screen.Board).PlaceUserOnABoard(UserService.User));
             ScreenService.Update(new BoardService(ScreenService.Screen.Board).PlaceDaniel());
+            return this;
         }
     }
 }
