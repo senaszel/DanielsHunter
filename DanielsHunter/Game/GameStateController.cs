@@ -4,7 +4,11 @@ namespace DanielsHunter
 {
     public class GameStateController
     {
-        private GameController GameController;
+        private readonly GameController GameController;
+        public GameStateController()
+        {
+
+        }
         public GameStateController(GameController gameController)
         {
             GameController = gameController;

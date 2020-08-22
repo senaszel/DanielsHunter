@@ -4,9 +4,21 @@
     {
 
         public Screen Screen { get; set; }
+        public ScreenController()
+        {
+
+        }
         public ScreenController(Screen screen)
         {
             Screen = screen;
+        }
+
+        public void ShowScreen()
+        {
+            GenerateView();
+            string screen = string.Concat(string.Join('\n', Screen.Header), string.Join('\n', Screen.CommStrip), string.Join('\n', Screen.View), string.Join('\n', Screen.Footer));
+            System.Console.CursorVisible = false;
+            System.Console.WriteLine(screen);
         }
 
         public void GenerateView()
@@ -26,36 +38,25 @@
             }
         }
 
-        public void ShowScreen()
+        public void GenerateUpperScreen(User user)
         {
-            GenerateView();
-            string screen = string.Concat(string.Join('\n', Screen.Header), string.Join('\n', Screen.CommStrip), string.Join('\n', Screen.View), string.Join('\n', Screen.Footer));
-            System.Console.CursorVisible = false;
-            System.Console.WriteLine(screen);
+             GenerateHeader();
+             GenerateCommStrip(user);
         }
 
-        public Screen GenerateUpperScreen(User user)
-        {
-            Screen = GenerateHeader();
-            Screen = GenerateCommStrip(user);
-            return Screen;
-        }
-
-        private Screen GenerateCommStrip(User user)
+        private void GenerateCommStrip(User user)
         {
             Screen.CommStrip[0] = "\r\n";
             Screen.CommStrip[1] = $"\t\t\t\tX : {user.X}\tY : {user.Y}";
             Screen.CommStrip[2] = $"Provision's Left: {user.Provisions}\t\t\t\t\tAquired Meat: {user.Meat}";
             Screen.CommStrip[3] = "\r\n";
-            return Screen;
         }
 
-        private Screen GenerateHeader()
+        private void GenerateHeader()
         {
             Screen.Header[0] = "\r\n";
             Screen.Header[1] = string.Concat(new string(' ', 20), "D A N I E L S   H U N T E R :");
             Screen.Header[2] = "\r\n";
-            return Screen;
         }
 
         public void InitialisePlayArea()

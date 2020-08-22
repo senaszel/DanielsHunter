@@ -5,8 +5,9 @@ namespace DanielsHunter
     static class PlayerInputService
     {
 
-        public static ConsoleKey GetPlayersInput(Board board, User user)
+        public static ConsoleKey GetPlayersInput(Screen screen, User user)
         {
+            var board = screen.Board;
             var playArea = board.PlayArea;
             var y = user.Y;
             var x = user.X;

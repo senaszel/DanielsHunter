@@ -3,38 +3,41 @@ using System.Linq;
 
 namespace DanielsHunter
 {
-    public class BoardService
+    public class BoardController
     {
         public Board Board { get; set; }
 
-        public BoardService(Board board)
+        public BoardController()
+        {
+
+        }
+        public BoardController(Board board)
         {
             Board = board;
         }
 
 
-        //TODO to oczywiscie jest do zgeneryfikowania
-        public void PlaceDaniel()
+        public void PlaceDanielAtRandomPlaceOnTheBoard()
         {
             AssetsRepository assetsRepository = new AssetsRepository();
+            Daniel daniel = new Daniel();
             Random random = new Random();
 
-            int danielX = random.Next(0, Board.Width);
-            int danielY = random.Next(0, Board.Height);
+            daniel.X = random.Next(0, Board.Width);
+            daniel.Y = random.Next(0, Board.Height);
 
             bool placed = false;
             foreach (string symbol in assetsRepository.GetAllSymbols())
             {
-                if (Board.PlayArea[danielY].Substring(danielX, 1) != symbol)
+                if (Board.PlayArea[daniel.Y].Substring(daniel.X, 1) != symbol)
                 {
-                    Board.PlayArea[danielY] = Board.PlayArea[danielY].Insert(danielX, "d").Remove(danielX + 1, 1);
+                    PlaceAssetOnABoard(daniel);
                     placed = true;
                 }
             };
-            if (!placed) PlaceDaniel();
+            if (!placed) PlaceDanielAtRandomPlaceOnTheBoard();
         }
 
-        // todo do przeniesienia do kontrollera
         public void PlaceAssetOnABoard(Asset asset)
         {
             Board.PlayArea[asset.Y] = Board.PlayArea[asset.Y].Insert(asset.X, asset.Symbol).Remove(asset.X + 1, 1);
