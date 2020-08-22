@@ -1,23 +1,23 @@
-﻿using System;
+﻿using DanielsHunter.Game;
+using System;
 
 namespace DanielsHunter
 {
-    class GameService
+    public class GameController
     {
-        GameState GameState;
-        UserService UserService;
-        ScreenService ScreenService;
+        public GameState GameState;
+        public UserService UserService;
+        public ScreenController ScreenService;
 
-        public GameService(GameState gameState)
+        public GameController()
         {
-            GameState = gameState;
+            GameState = new GameState();
             UserService = new UserService(new User());
-            ScreenService = new ScreenService(new Screen(3, 4, 25, 3, new Board(25, 50, 8)));
+            ScreenService = new ScreenController(new Screen(3, 4, 25, 3, new Board(25, 50, 8)));
         }
         public void Start()
         {
-            Console.CursorVisible = false;
-            Console.WriteLine(ScreenService.ShowScreen());
+            ScreenService.ShowScreen();
             ConsoleKey playersKeyInput = ConsoleKey.Enter;
             do
             {
@@ -26,17 +26,8 @@ namespace DanielsHunter
 
                 Console.Clear();
 
-                if (UserService.User.Meat == 300)
-                {
-                    GameState.Outcome = GameOutcome.WON;
-                    playersKeyInput = ConsoleKey.Escape;
-                }
 
-                if (UserService.User.Provisions == 0)
-                {
-                    GameState.Outcome = GameOutcome.LOOSE;
-                    playersKeyInput = ConsoleKey.Escape;
-                }
+                new GameStateController().CheckIfStarved(this);
 
                 if (GameState.Outcome == GameOutcome.PENDING)
                 {
@@ -44,6 +35,7 @@ namespace DanielsHunter
                     if (ScreenService.Screen.Board.PlayArea[UserService.User.UserY].Substring(UserService.User.UserX, 1) == "d")
                     {
                         UserService.User.Meat += 10;
+                        new GameStateController().CheckIfEnoughCollected(this);
                         UserService.User.Provisions += 21;
                         ScreenService.GenerateUpperScreen(UserService.User);
                         ScreenService.Update(new BoardService(ScreenService.Screen.Board).PlaceDaniel());
@@ -52,7 +44,7 @@ namespace DanielsHunter
                     ScreenService.Update(new BoardService(ScreenService.Screen.Board).PlaceUserOnABoard(UserService.User));
                     ScreenService.GenerateUpperScreen(UserService.User);
                     ScreenService.GenerateView();
-                    Console.WriteLine(ScreenService.ShowScreen());
+                    ScreenService.ShowScreen();
 
                     ScreenService.Update(new BoardService(ScreenService.Screen.Board).ScratchLastPlayerPosition(UserService.User));
                     playersKeyInput = PlayerInputService.GetPlayersInput(ScreenService.Screen.Board, UserService.User);
@@ -60,6 +52,8 @@ namespace DanielsHunter
 
             } while (playersKeyInput != ConsoleKey.Escape);
         }
+
+        
 
         public void Set()
         {

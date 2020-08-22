@@ -4,6 +4,6 @@
     {
         PENDING,
         WON,
-        LOOSE
+        LOST
     }
 }

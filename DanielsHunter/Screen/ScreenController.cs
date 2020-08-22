@@ -1,10 +1,10 @@
 ﻿namespace DanielsHunter
 {
-    public class ScreenService
+    public class ScreenController
     {
 
         public Screen Screen { get; set; }
-        public ScreenService(Screen screen)
+        public ScreenController(Screen screen)
         {
             Screen = screen;
         }
@@ -32,11 +32,12 @@
             }
         }
 
-        public string ShowScreen()
+        public void ShowScreen()
         {
             GenerateView();
             string screen = string.Concat(string.Join('\n', Screen.Header), string.Join('\n', Screen.CommStrip), string.Join('\n', Screen.View), string.Join('\n', Screen.Footer));
-            return screen;
+            System.Console.CursorVisible = false;
+            System.Console.WriteLine(screen);
         }
 
         public Screen GenerateUpperScreen(User user)

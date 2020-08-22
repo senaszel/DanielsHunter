@@ -6,11 +6,10 @@ namespace DanielsHunter
     {
         static void Main()
         {
-            GameService newGameService = new GameService(new GameState());
+            GameController newGameService = new GameController();
             newGameService.Set();
             newGameService.Start();
 
-            Common.Quit(ConsoleKey.Escape, 3);
         }
     }
 }
