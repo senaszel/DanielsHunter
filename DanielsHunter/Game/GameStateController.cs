@@ -4,12 +4,17 @@ namespace DanielsHunter
 {
     public class GameStateController
     {
-        public void CheckIfEnoughCollected(GameController gameController)
+        private GameController GameController;
+        public GameStateController(GameController gameController)
         {
-            if (MeatCollectionCondtition(gameController.UserService.User.Meat))
+            GameController = gameController;
+        }
+        public void CheckIfEnoughCollected()
+        {
+            if (MeatCollectionCondtition(GameController.UserService.User.Meat))
             {
-                gameController.GameState.Outcome = GameOutcome.WON;
-                Common.Quit(gameController.ScreenService, gameController.GameState, ConsoleKey.Escape, 3);
+                GameController.GameState.Outcome = GameOutcome.WON;
+                Common.Quit(GameController.ScreenController, GameController.GameState, ConsoleKey.Escape, 3);
             }
         }
 
@@ -22,12 +27,12 @@ namespace DanielsHunter
             return false;
         }
 
-        public void CheckIfStarved(GameController gameController)
+        public void CheckIfStarved()
         {
-            if (CheckIfStarved(gameController.UserService.User.Provisions))
+            if (CheckIfStarved(GameController.UserService.User.Provisions))
             {
-                gameController.GameState.Outcome = GameOutcome.LOST;
-                Common.Quit(gameController.ScreenService, gameController.GameState, ConsoleKey.Escape, 3);
+                GameController.GameState.Outcome = GameOutcome.LOST;
+                Common.Quit(GameController.ScreenController, GameController.GameState, ConsoleKey.Escape, 3);
             }
         }
 

@@ -12,8 +12,8 @@
         public void GrowTrees(Board board, User user)
         {
             string[] playArea = board.PlayArea;
-            int x = user.UserX;
-            int y = user.UserY;
+            int x = user.X;
+            int y = user.Y;
             //todo aktualnie jak bedzie mialo urodzic poza playArea to sypnie bledem
             // poprawilem ale lamie SRP -- FluentValidowac to!
             if ((y - 1 >= 0) && (x - 1 >= 0))

@@ -8,14 +8,14 @@ namespace DanielsHunter
         public static ConsoleKey GetPlayersInput(Board board, User user)
         {
             var playArea = board.PlayArea;
-            var y = user.UserY;
-            var x = user.UserX;
+            var y = user.Y;
+            var x = user.X;
             ConsoleKey playersKeyInput = Console.ReadKey(true).Key;
 
             switch (playersKeyInput)
             {
                 case ConsoleKey.NumPad1:
-                    if ((x - 1 > 0) && (y + 1 < board.Height))
+                    if ((x - 1 >= 0) && (y + 1 < board.Height))
                     {
                         if (playArea[y + 1].Substring(x - 1, 1) != "#") { x -= 1; y += 1; }
                     }
@@ -66,8 +66,8 @@ namespace DanielsHunter
                     break;
             }
 
-            user.UserX = x;
-            user.UserY = y;
+            user.X = x;
+            user.Y = y;
             return playersKeyInput;
         }
 

@@ -9,12 +9,6 @@
             Screen = screen;
         }
 
-        public void Update(Board board)
-        {
-            Screen.Board = board;
-            GenerateView();
-        }
-
         public void GenerateView()
         {
             int upperBoarder = 0;
@@ -50,7 +44,7 @@
         private Screen GenerateCommStrip(User user)
         {
             Screen.CommStrip[0] = "\r\n";
-            Screen.CommStrip[1] = $"\t\t\t\tX : {user.UserX}\tY : {user.UserY}";
+            Screen.CommStrip[1] = $"\t\t\t\tX : {user.X}\tY : {user.Y}";
             Screen.CommStrip[2] = $"Provision's Left: {user.Provisions}\t\t\t\t\tAquired Meat: {user.Meat}";
             Screen.CommStrip[3] = "\r\n";
             return Screen;
@@ -59,7 +53,7 @@
         private Screen GenerateHeader()
         {
             Screen.Header[0] = "\r\n";
-            Screen.Header[1] = (string.Concat(new string(' ', 20), "D A N I E L S   H U N T E R :"));
+            Screen.Header[1] = string.Concat(new string(' ', 20), "D A N I E L S   H U N T E R :");
             Screen.Header[2] = "\r\n";
             return Screen;
         }
