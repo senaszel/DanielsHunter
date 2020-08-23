@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace DanielsHunter
 {
@@ -23,6 +24,11 @@ namespace DanielsHunter
         public void Add2Symbols(Asset asset)
         {
             Symbols.Add(asset.Symbol);
+        }
+
+        public string GetSymbol(Asset asset)
+        {
+            return Symbols.Find(x => x == asset.Symbol).FirstOrDefault().ToString();
         }
 
         public List<Asset> GetAllAssets()

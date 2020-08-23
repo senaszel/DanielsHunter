@@ -9,6 +9,7 @@ namespace DanielsHunter
         public ScreenController ScreenController;
         public BoardController BoardController;
         public GameStateController GameStateController;
+        public AssetsRepository AssetsRepository;
 
         public GameController()
         {
@@ -17,6 +18,7 @@ namespace DanielsHunter
             ScreenController = new ScreenController();
             BoardController = new BoardController();
             GameStateController = new GameStateController();
+            AssetsRepository = new AssetsRepository();
         }
         public GameController Start()
         {
@@ -47,7 +49,7 @@ namespace DanielsHunter
                     ScreenController.ShowScreen();
 
                     BoardController.RemoveAssetFromTheBoard(UserService.User);
-                    playersKeyInput = PlayerInputService.GetPlayersInput(ScreenController.Screen, UserService.User);
+                    playersKeyInput = PlayerInputService.GetPlayersInput(ScreenController.Screen, UserService.User,AssetsRepository);
                 }
 
             } while (playersKeyInput != ConsoleKey.Escape);
@@ -58,7 +60,8 @@ namespace DanielsHunter
 
         public GameController Set()
         {
-            ScreenController = new ScreenController(new Screen(3, 4, 25, 3, new Board(25, 50, 8)));
+            //ScreenController = new ScreenController(new Screen(3, 4, 25, 3, new Board(25, 50, 8)));
+            ScreenController = new ScreenController(new Screen(3, 4, 25, 3, new Board(10, 10, 16)));
             UserService.User = new User()
             {
                 Provisions = 101,
@@ -66,7 +69,7 @@ namespace DanielsHunter
                 X = ScreenController.Screen.Board.Width / 2,
                 Y = ScreenController.Screen.Board.Height / 2
             };
-            BoardController = new BoardController(ScreenController.Screen.Board);
+            BoardController = new BoardController(ScreenController.Screen.Board,AssetsRepository);
             GameStateController = new GameStateController(this);
 
             ScreenController.InitialisePlayArea();
