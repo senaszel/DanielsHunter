@@ -1,51 +1,40 @@
 ﻿using System;
-using System.Linq;
 
 namespace DanielsHunter
 {
     public class BoardController
     {
-        public Board Board;
-        AssetsRepository AssetsRepository;
+        private Board Board;
         public BoardController()
         {
-
         }
-        public BoardController(Board board, AssetsRepository assetsRepository)
+        public BoardController(Board board)
         {
             Board = board;
-            AssetsRepository = assetsRepository;
+        }
+
+        
+        public void PlaceAssetOnTheBoard(IAsset asset)
+        {
+            Board.AssetsRepository.AddToAssetRepository(asset);
+            PlaceAssetOnTheBoard(asset.X, asset.Y, asset.Symbol);
+        }
+        public void PlaceAssetOnTheBoard(int x, int y, string symbol)
+        {
+            Board.PlayArea[y] = Board.PlayArea[y].Insert(x, symbol).Remove(x + 1, 1);
         }
 
 
-        public void PlaceDanielAtRandomPlaceOnTheBoard()
+        public void RemoveAssetFromTheBoard(IAsset asset)
         {
-            Daniel daniel = new Daniel();
-            Random random = new Random();
-
-            daniel.X = random.Next(0, Board.Width);
-            daniel.Y = random.Next(0, Board.Height);
-
-            bool placed = false;
-            do
+            if (Board.AssetsRepository.RemoveFromAssetsRepository(asset))
             {
-                foreach (string symbol in AssetsRepository.GetAllSymbols())
-                    if (Board.PlayArea[daniel.Y].Substring(daniel.X, 1) != symbol)
-                    {
-                        PlaceAssetOnABoard(daniel);
-                        placed = true;
-                    }
-            } while (!placed);
+                RemoveAssetFromTheBoard(asset.X, asset.Y);
+            }
         }
-
-        public void PlaceAssetOnABoard(Asset asset)
+        internal void RemoveAssetFromTheBoard(int x, int y)
         {
-            Board.PlayArea[asset.Y] = Board.PlayArea[asset.Y].Insert(asset.X, asset.Symbol).Remove(asset.X + 1, 1);
-        }
-
-        public void RemoveAssetFromTheBoard(Asset asset)
-        {
-            Board.PlayArea[asset.Y] = Board.PlayArea[asset.Y].Insert(asset.X, " ").Remove(asset.X + 1, 1);
+            Board.PlayArea[y] = Board.PlayArea[y].Insert(x, " ").Remove(x + 1, 1);
         }
 
 

@@ -17,17 +17,21 @@ namespace DanielsHunter
             User = user;
         }
 
-        internal void ChopTree(Board board,AssetsRepository assetsRepository)
+        internal void ChopTree(Board board)
         {
+            //todo a tego drzewa to nie wyciagac z assets repo?
             Tree tree = new Tree();
             (int x, int y) direction = DirectionMenager.GetDirection();
             var playArea = board.PlayArea;
-            tree.X = User.X + direction.x;
-            tree.Y = User.Y + direction.y;
-            if (playArea[tree.Y].Substring(tree.X,1)==tree.Symbol)
+            int X = User.X + direction.x;
+            int Y = User.Y + direction.y;
+            if (X >= 0 && X < board.Width && Y >= 0 && Y < board.Height && playArea[Y].Substring(X, 1) == tree.Symbol)
             {
-                new BoardController(board,assetsRepository).RemoveAssetFromTheBoard(tree);
+                if (board.AssetsRepository.RemoveFromAssetsRepository(board.AssetsRepository.GetAsset((X,Y))))
+                new BoardController(board).RemoveAssetFromTheBoard(X, Y);
             }
         }
+
+        
     }
 }

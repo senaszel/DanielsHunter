@@ -66,7 +66,7 @@ namespace DanielsHunter
                 case ConsoleKey.Escape:
                     break;
                 case ConsoleKey.NumPad5:
-                      new UserActionController(user).ChopTree(board,assetsRepository);
+                      new UserActionController(user).ChopTree(board);
                     break;
                 default:
                     GetPlayersInput(screen, user,assetsRepository);

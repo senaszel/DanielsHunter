@@ -16,10 +16,11 @@ namespace DanielsHunter
             GameState = new GameState();
             UserService = new UserService();
             ScreenController = new ScreenController();
-            BoardController = new BoardController();
             GameStateController = new GameStateController();
+            BoardController = new BoardController();
             AssetsRepository = new AssetsRepository();
         }
+
         public GameController Start()
         {
             ScreenController.ShowScreen();
@@ -35,33 +36,24 @@ namespace DanielsHunter
 
                 if (GameState.Outcome == GameOutcome.PENDING)
                 {
-                    //todo co tutaj robi podnoszenie przedmiotu przemyslec przeniesc w odpowiednie miejsce
-                    if (ScreenController.Screen.Board.PlayArea[UserService.User.Y].Substring(UserService.User.X, 1) == "d")
-                    {
-                        UserService.User.Meat += 10;
-                        GameStateController.CheckIfEnoughCollected();
-                        UserService.User.Provisions += 21;
-                        BoardController.PlaceDanielAtRandomPlaceOnTheBoard();
-                        new TreeService().GrowTrees(ScreenController.Screen.Board, UserService.User);
-                    }
-                    BoardController.PlaceAssetOnABoard(UserService.User);
-                    ScreenController.GenerateUpperScreen(UserService.User);
+                    BoardController.PlaceAssetOnTheBoard(UserService.User);
+                    GameStateController.HasDanielBeenCought(this);
+
+                    ScreenController.GenerateUpperScreen(AssetsRepository);
                     ScreenController.ShowScreen();
 
                     BoardController.RemoveAssetFromTheBoard(UserService.User);
-                    playersKeyInput = PlayerInputService.GetPlayersInput(ScreenController.Screen, UserService.User,AssetsRepository);
+                    playersKeyInput = PlayerInputService.GetPlayersInput(ScreenController.Screen, UserService.User, AssetsRepository);
                 }
 
             } while (playersKeyInput != ConsoleKey.Escape);
             return this;
         }
 
-
-
         public GameController Set()
         {
-            //ScreenController = new ScreenController(new Screen(3, 4, 25, 3, new Board(25, 50, 8)));
-            ScreenController = new ScreenController(new Screen(3, 4, 25, 3, new Board(10, 10, 16)));
+            //ScreenController = new ScreenController(new Screen(3, 4, 25, 3, new Board(25, 50, AssetsRepository)));
+            ScreenController = new ScreenController(new Screen(3, 4, 25, 3, new Board(5, 5, 16, AssetsRepository)));
             UserService.User = new User()
             {
                 Provisions = 101,
@@ -69,12 +61,19 @@ namespace DanielsHunter
                 X = ScreenController.Screen.Board.Width / 2,
                 Y = ScreenController.Screen.Board.Height / 2
             };
-            BoardController = new BoardController(ScreenController.Screen.Board,AssetsRepository);
+            AssetsRepository.AddToAssetRepository(UserService.User);
+            Daniel daniel = new Daniel()
+            {
+                X = 0,
+                Y = 0,
+            };
+            AssetsRepository.AddToAssetRepository(daniel);
+            ScreenController.Screen.Board.AssetsRepository = AssetsRepository;
+            BoardController = new BoardController(ScreenController.Screen.Board);
             GameStateController = new GameStateController(this);
 
             ScreenController.InitialisePlayArea();
-            BoardController.PlaceAssetOnABoard(UserService.User);
-            BoardController.PlaceDanielAtRandomPlaceOnTheBoard();
+            new DanielController(daniel).PlaceDanielAtRandomPlaceOnTheBoard(ScreenController.Screen.Board);
             return this;
         }
     }

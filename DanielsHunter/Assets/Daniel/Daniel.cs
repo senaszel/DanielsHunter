@@ -1,9 +1,19 @@
 ﻿namespace DanielsHunter
 {
-    public class Daniel : Asset
+    public class Daniel : IAsset
     {
-        public override string Symbol => "d";
-        public override int X { get; set; }
-        public override int Y { get; set; }
+        public  string Name => "Daniel";
+        public  string Symbol => "d";
+        public  int X { get; set; }
+        public  int Y { get; set; }
+        public  (int x, int y) Key => (X, Y);
+        public Daniel()
+        {
+        }
+        public Daniel(int x,int y)
+        {
+            X = x;
+            Y = y;
+        }
     }
 }

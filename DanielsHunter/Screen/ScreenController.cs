@@ -16,7 +16,7 @@
         public void ShowScreen()
         {
             GenerateView();
-            string screen = string.Concat(string.Join('\n', Screen.Header), string.Join('\n', Screen.CommStrip), string.Join('\n', Screen.View), string.Join('\n', Screen.Footer));
+            string screen = string.Concat(string.Join('\n', Screen.Header), string.Join('\n', Screen.CommStrip),"\r\n",string.Join('\n', Screen.View), string.Join('\n', Screen.Footer));
             System.Console.CursorVisible = false;
             System.Console.WriteLine(screen);
         }
@@ -38,18 +38,22 @@
             }
         }
 
-        public void GenerateUpperScreen(User user)
+        public void GenerateUpperScreen(AssetsRepository assetsRepository)
         {
              GenerateHeader();
-             GenerateCommStrip(user);
+             GenerateCommStrip(assetsRepository);
         }
 
-        private void GenerateCommStrip(User user)
+        private void GenerateCommStrip(AssetsRepository assetsRepository)
         {
-            Screen.CommStrip[0] = "\r\n";
-            Screen.CommStrip[1] = $"\t\t\t\tX : {user.X}\tY : {user.Y}";
-            Screen.CommStrip[2] = $"Provision's Left: {user.Provisions}\t\t\t\t\tAquired Meat: {user.Meat}";
-            Screen.CommStrip[3] = "\r\n";
+            Daniel daniel = (Daniel)assetsRepository.GetAsset("Daniel");
+
+            User user = (User)assetsRepository.GetAsset("User");
+
+            Screen.CommStrip[0] = string.Empty;
+            Screen.CommStrip[1] = $"\t\t\tDaniel\tX : {daniel.X}\tY : {daniel.Y}";
+            Screen.CommStrip[2] = $"\t\t\tUser\tX : {user.X}\tY : {user.Y}";
+            Screen.CommStrip[3] = $"Provision's Left: {user.Provisions}\t\t\t\t\tAquired Meat: {user.Meat}";
         }
 
         private void GenerateHeader()
