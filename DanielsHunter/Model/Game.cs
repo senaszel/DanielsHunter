@@ -6,19 +6,19 @@ namespace DanielsHunter.Model
     {
         public GameState gameState;
         public UserService userService;
-        public ScreenService screenController;
-        public BoardService boardController;
-        public GameStateService gameStateController;
-        public AssetService assetsRepository;
+        public ScreenService screenService;
+        public BoardService boardService;
+        public GameStateService gameStateService;
+        public AssetService assetsService;
 
         public Game()
         {
             gameState = new GameState();
             userService = new UserService();
-            screenController = new ScreenService();
-            gameStateController = new GameStateService();
-            boardController = new BoardService();
-            assetsRepository = new AssetService();
+            screenService = new ScreenService();
+            gameStateService = new GameStateService();
+            boardService = new BoardService();
+            assetsService = new AssetService();
         }
 
     }

@@ -12,8 +12,7 @@ namespace DanielsHunter.Service
             if (user.X == user.X + modification.ofX &&
                 user.Y == user.Y + modification.ofY )
             {
-                // todo here will be menu to choose action shown on the screen below the board
-                new UserService(user).ChopTree(screen.Board);
+                new MenuService().EnabelActionChoice(screen, user);
             }
             else
             {

@@ -25,7 +25,7 @@ namespace DanielsHunter.Service
             if (MeatCollectionCondition(game.userService.user.Meat))
             {
                 gameState.Outcome = GameOutcome.WON;
-                Common.QuitService.Quit(game.screenController, gameState, ConsoleKey.Escape, 3);
+                Common.QuitService.Quit(game.screenService, gameState, ConsoleKey.Escape, 3);
             }
         }
 
@@ -43,7 +43,7 @@ namespace DanielsHunter.Service
             if (CheckIfStarved(game.userService.user.Provisions))
             {
                 gameState.Outcome = GameOutcome.LOST;
-                Common.QuitService.Quit(game.screenController, gameState, ConsoleKey.Escape, 3);
+                Common.QuitService.Quit(game.screenService, gameState, ConsoleKey.Escape, 3);
             }
         }
 
@@ -58,15 +58,15 @@ namespace DanielsHunter.Service
 
         internal void HasDanielBeenCought(Game game)
         {
-            if (!game.assetsRepository.IsAsset("Daniel"))
+            if (!game.assetsService.IsAsset("Daniel"))
             {
                 game.userService.user.Meat += 10;
                 CheckIfEnoughCollected(game);
                 game.userService.user.Provisions += 21;
-                new TreeService().GrowTrees(game.screenController.screen.Board, game.userService.user);
+                new TreeService().GrowTrees(game.screenService.screen.Board, game.userService.user);
                 Daniel newDaniel = new Daniel();
-                game.assetsRepository.AddToAssetRepository(newDaniel);
-                new DanielService(newDaniel).PlaceDanielAtRandomPlaceOnTheBoard(game.screenController.screen.Board);
+                game.assetsService.AddToAssetRepository(newDaniel);
+                new DanielService(newDaniel).PlaceDanielAtRandomPlaceOnTheBoard(game.screenService.screen.Board);
             }
         }
     }

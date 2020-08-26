@@ -7,17 +7,45 @@ namespace DanielsHunter.Service
         public Screen screen;
         public ScreenService()
         {
-
         }
         public ScreenService(Screen screen)
         {
             this.screen = screen;
         }
 
-        public void ShowScreen()
+        public (int, int) FillFooterMenuWithContent(int chosen, params string[] message)
         {
+            screen.Footer = new string[message.Length];
+            for (int i = 0; i < message.Length; i++)
+            {
+                if (i == chosen)
+                {
+                    screen.Footer[i] = string.Concat(new string(' ', screen.Board.Offset - 2), ">>> ", message[i], " <<<");
+                }
+                else
+                {
+                    screen.Footer[i] = string.Concat(new string(' ', screen.Board.Offset), message[i]);
+                }
+
+            }
+            return (chosen, message.Length);
+        }
+
+        public void EraseFooter()
+        {
+            FillFooterMenuWithContent(-1,string.Empty);
+        }
+
+        public void ShowScreen(bool displayFooter = false)
+        {
+            if (!displayFooter)
+            {
+                EraseFooter();
+            }
+
+            string separator = "\r\n\r\n";
             GenerateView();
-            string screen = string.Concat(string.Join('\n', this.screen.Header), string.Join('\n', this.screen.CommStrip),"\r\n",string.Join('\n', this.screen.View), string.Join('\n', this.screen.Footer));
+            string screen = string.Concat(string.Join('\n', this.screen.Header), separator, string.Join('\n', this.screen.CommStrip), separator, string.Join('\n', this.screen.View), separator, string.Join('\n', this.screen.Footer));
             System.Console.CursorVisible = false;
             System.Console.WriteLine(screen);
         }
@@ -41,8 +69,8 @@ namespace DanielsHunter.Service
 
         public void GenerateUpperScreen(AssetService assetsRepository)
         {
-             GenerateHeader();
-             GenerateCommStrip(assetsRepository);
+            GenerateHeader();
+            GenerateCommStrip(assetsRepository);
         }
 
         private void GenerateCommStrip(AssetService assetsRepository)
@@ -51,9 +79,9 @@ namespace DanielsHunter.Service
 
             User user = (User)assetsRepository.GetAsset("User");
 
-            screen.CommStrip[0] = string.Empty;
-            screen.CommStrip[1] = $"\t\t\tDaniel\tX : {daniel.X}\tY : {daniel.Y}";
-            screen.CommStrip[2] = $"\t\t\tUser\tX : {user.X}\tY : {user.Y}";
+            screen.CommStrip[0] = $"\t\t\tDaniel\tX : {daniel.X}\tY : {daniel.Y}";
+            screen.CommStrip[1] = $"\t\t\tUser\tX : {user.X}\tY : {user.Y}";
+            screen.CommStrip[2] = string.Empty;
             screen.CommStrip[3] = $"Provision's Left: {user.Provisions}\t\t\t\t\tAquired Meat: {user.Meat}";
         }
 
