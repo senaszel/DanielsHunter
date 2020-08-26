@@ -2,7 +2,7 @@
 
 namespace DanielsHunter
 {
-    static class PlayerInputService
+    static class UserInputService
     {
 
         public static void GetPlayersInput(Screen screen, User user)

@@ -47,7 +47,7 @@ namespace DanielsHunter
             }
             else
             {
-                PlayerInputService.GetPlayersInput(screen, User);
+                UserInputService.GetPlayersInput(screen, User);
             }
         }
     }

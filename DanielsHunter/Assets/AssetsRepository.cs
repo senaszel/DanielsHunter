@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 
 namespace DanielsHunter
 {
@@ -9,21 +7,17 @@ namespace DanielsHunter
     {
         private Dictionary<(int, int), IAsset> Assets { get; set; }
         private List<(string name, (int x, int y) key)> Keys { get; set; }
-        private List<string> Symbols { get; set; }
-
 
         public AssetsRepository()
         {
             Assets = new Dictionary<(int, int), IAsset>();
             Keys = new List<(string name, (int x, int y) key)>();
-            Symbols = new List<string>();
         }
-
 
 
         public void AddToAssetRepository(IAsset asset)
         {
-            if (!IsAsset(asset.X, asset.Y))
+            if (!IsAsset(asset.Key))
             {
                 Add2Assets(asset);
                 Add2Keys(asset);
@@ -56,19 +50,10 @@ namespace DanielsHunter
         {
             return Assets.ContainsKey(key);
         }
-        internal bool IsAsset(int x, int y)
-        {
-            return Assets.ContainsKey((x,y));
-        }
         internal bool IsAsset(string name)
         {
             var key = Keys.FirstOrDefault(x => x.name == name);
             return Assets.ContainsKey(key.key);
-        }
-
-        public void Add2Symbols(IAsset asset)
-        {
-            Symbols.Add(asset.Symbol);
         }
 
         public IAsset GetAsset((int x, int y) key)
@@ -81,16 +66,6 @@ namespace DanielsHunter
         {
             (string name, (int x, int y) key) key = Keys.Where(x => x.name == name).FirstOrDefault();
             return Assets[key.key];
-        }
-
-        public List<IAsset> GetAllAssets()
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<string> GetAllSymbols()
-        {
-            throw new NotImplementedException();
         }
 
         internal bool RemoveFromAssetsRepository((int x, int y) key)

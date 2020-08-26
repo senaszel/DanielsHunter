@@ -40,7 +40,7 @@ namespace DanielsHunter
                 ScreenController.ShowScreen();
 
                 BoardController.RemoveAssetFromTheBoard(UserService.User);
-                PlayerInputService.GetPlayersInput(ScreenController.Screen, UserService.User);
+                UserInputService.GetPlayersInput(ScreenController.Screen, UserService.User);
 
             } while (GameState.Outcome == GameOutcome.PENDING) ;
             return this;

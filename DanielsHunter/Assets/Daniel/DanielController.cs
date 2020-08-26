@@ -25,7 +25,7 @@ namespace DanielsHunter
                 randomX = random.Next(0, board.Width);
                 randomY = random.Next(0, board.Height);
 
-                if (!board.AssetsRepository.IsAsset(randomX, randomY))
+                if (!board.AssetsRepository.IsAsset((randomX, randomY)))
                 {
                     placePossible = true;
                 }
