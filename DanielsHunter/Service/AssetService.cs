@@ -1,14 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using DanielsHunter.Model;
+using System.Collections.Generic;
 using System.Linq;
 
-namespace DanielsHunter
+namespace DanielsHunter.Service
 {
-    public class AssetsRepository
+    public class AssetService
     {
         private Dictionary<(int, int), IAsset> Assets { get; set; }
         private List<(string name, (int x, int y) key)> Keys { get; set; }
 
-        public AssetsRepository()
+        public AssetService()
         {
             Assets = new Dictionary<(int, int), IAsset>();
             Keys = new List<(string name, (int x, int y) key)>();
@@ -41,7 +42,7 @@ namespace DanielsHunter
             else
             {
                 RemoveFromAssetsRepository(asset.Key);
-                RemoveFromKeys(asset);
+            //    RemoveFromKeys(asset);
                 Add2Assets(asset);
             }
         }
@@ -101,11 +102,6 @@ namespace DanielsHunter
         private bool RemoveFromAsseets(IAsset asset)
         {
             return Assets.Remove((asset.Key));
-        }
-        private bool RemoveFromAsseets((int x, int y) key)
-        {
-            IAsset removeAsset = GetAsset(key);
-            return Assets.Remove(removeAsset.Key);
         }
 
         private bool RemoveFromKeys(IAsset asset)

@@ -1,4 +1,4 @@
-﻿namespace DanielsHunter
+﻿namespace DanielsHunter.Enum
 {
     public enum GameOutcome
     {

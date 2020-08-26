@@ -1,40 +1,40 @@
-﻿using System;
+﻿using DanielsHunter.Model;
 
-namespace DanielsHunter
+namespace DanielsHunter.Service
 {
-    public class BoardController
+    public class BoardService
     {
-        private Board Board;
-        public BoardController()
+        public Board board;
+        public BoardService()
         {
         }
-        public BoardController(Board board)
+        public BoardService(Board board)
         {
-            Board = board;
+            this.board = board;
         }
 
         
         public void PlaceAssetOnTheBoard(IAsset asset)
         {
-            Board.AssetsRepository.AddToAssetRepository(asset);
+            board.AssetsRepository.AddToAssetRepository(asset);
             PlaceAssetOnTheBoard(asset.X, asset.Y, asset.Symbol);
         }
         public void PlaceAssetOnTheBoard(int x, int y, string symbol)
         {
-            Board.PlayArea[y] = Board.PlayArea[y].Insert(x, symbol).Remove(x + 1, 1);
+            board.PlayArea[y] = board.PlayArea[y].Insert(x, symbol).Remove(x + 1, 1);
         }
 
 
         public void RemoveAssetFromTheBoard(IAsset asset)
         {
-            if (Board.AssetsRepository.RemoveFromAssetsRepository(asset))
+            if (board.AssetsRepository.RemoveFromAssetsRepository(asset))
             {
                 RemoveAssetFromTheBoard(asset.X, asset.Y);
             }
         }
         internal void RemoveAssetFromTheBoard(int x, int y)
         {
-            Board.PlayArea[y] = Board.PlayArea[y].Insert(x, " ").Remove(x + 1, 1);
+            board.PlayArea[y] = board.PlayArea[y].Insert(x, " ").Remove(x + 1, 1);
         }
 
 

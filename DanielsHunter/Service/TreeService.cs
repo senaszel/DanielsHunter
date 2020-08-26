@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using DanielsHunter.Model;
 
-namespace DanielsHunter
+namespace DanielsHunter.Service
 {
-    class TreeController
+    class TreeService
     {
-        private Tree Tree;
+        private Tree tree;
 
-        public TreeController()
+        public TreeService()
         {
-            Tree = new Tree();
+            tree = new Tree();
         }
-        public TreeController(Tree tree)
+        public TreeService(Tree tree)
         {
-            Tree = tree;
+            this.tree = tree;
         }
 
         public void GrowTrees(Board board, User user)
@@ -31,7 +29,7 @@ namespace DanielsHunter
                 {
                     if (!board.AssetsRepository.IsAsset((newX, newY)))
                     {
-                        new BoardController(board).PlaceAssetOnTheBoard(new Tree("TreeController-GrowTrees-generatedTree", newX, newY));
+                        new BoardService(board).PlaceAssetOnTheBoard(new Tree("TreeController-GrowTrees-generatedTree", newX, newY));
                     }
                 }
             }

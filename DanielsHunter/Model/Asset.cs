@@ -1,4 +1,4 @@
-﻿namespace DanielsHunter
+﻿namespace DanielsHunter.Model
 {
     public interface IAsset
     {

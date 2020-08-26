@@ -1,7 +1,6 @@
 ﻿using System;
-using System.ComponentModel.Design;
 
-namespace DanielsHunter
+namespace DanielsHunter.Common
 {
     internal class DirectionMenager
     {

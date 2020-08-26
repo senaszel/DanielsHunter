@@ -1,6 +1,7 @@
-﻿using System;
+﻿using DanielsHunter.Common;
+using DanielsHunter.Model;
 
-namespace DanielsHunter
+namespace DanielsHunter.Service
 {
     static class UserInputService
     {
@@ -12,11 +13,11 @@ namespace DanielsHunter
                 user.Y == user.Y + modification.ofY )
             {
                 // todo here will be menu to choose action shown on the screen below the board
-                new UserActionController(user).ChopTree(screen.Board);
+                new UserService(user).ChopTree(screen.Board);
             }
             else
             {
-                new UserActionController(user).MoveUser(modification, screen);
+                new UserService(user).MoveUser(modification, screen);
             }
         }
 

@@ -1,4 +1,6 @@
-﻿namespace DanielsHunter
+﻿using DanielsHunter.Enum;
+
+namespace DanielsHunter.Model
 {
     public class GameState
     {

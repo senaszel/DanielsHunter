@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using DanielsHunter.Model;
 
-namespace DanielsHunter
+namespace DanielsHunter.Service
 {
-    class DanielController
+    class DanielService
     {
-        Daniel Daniel;
+        private Daniel daniel;
 
-        public DanielController(Daniel daniel)
+        public DanielService(Daniel daniel)
         {
-            Daniel = daniel;
+            this.daniel = daniel;
         }
 
         public void PlaceDanielAtRandomPlaceOnTheBoard(Board board)
         {
-            BoardController boardController = new BoardController(board);
-            Random random = new Random();
+            BoardService boardController = new BoardService(board);
+            System.Random random = new System.Random();
             int randomX;
             int randomY;
             bool placePossible = false;
@@ -30,7 +28,7 @@ namespace DanielsHunter
                     placePossible = true;
                 }
             } while (!placePossible);
-            boardController.RemoveAssetFromTheBoard(Daniel);
+            boardController.RemoveAssetFromTheBoard(daniel);
             Daniel newDaniel = new Daniel(randomX, randomY);
             boardController.PlaceAssetOnTheBoard(newDaniel);
         }
