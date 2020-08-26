@@ -24,7 +24,6 @@ namespace DanielsHunter
         public GameController Start()
         {
             ScreenController.ShowScreen();
-            ConsoleKey playersKeyInput = ConsoleKey.Enter;
             do
             {
                 GameStateController.AdvanceCounter(1);
@@ -34,26 +33,23 @@ namespace DanielsHunter
 
                 GameStateController.CheckIfStarved();
 
-                if (GameState.Outcome == GameOutcome.PENDING)
-                {
-                    BoardController.PlaceAssetOnTheBoard(UserService.User);
-                    GameStateController.HasDanielBeenCought(this);
+                BoardController.PlaceAssetOnTheBoard(UserService.User);
+                GameStateController.HasDanielBeenCought(this);
 
-                    ScreenController.GenerateUpperScreen(AssetsRepository);
-                    ScreenController.ShowScreen();
+                ScreenController.GenerateUpperScreen(AssetsRepository);
+                ScreenController.ShowScreen();
 
-                    BoardController.RemoveAssetFromTheBoard(UserService.User);
-                    playersKeyInput = PlayerInputService.GetPlayersInput(ScreenController.Screen, UserService.User, AssetsRepository);
-                }
+                BoardController.RemoveAssetFromTheBoard(UserService.User);
+                PlayerInputService.GetPlayersInput(ScreenController.Screen, UserService.User);
 
-            } while (playersKeyInput != ConsoleKey.Escape);
+            } while (GameState.Outcome == GameOutcome.PENDING) ;
             return this;
         }
 
         public GameController Set()
         {
-            //ScreenController = new ScreenController(new Screen(3, 4, 25, 3, new Board(25, 50, AssetsRepository)));
-            ScreenController = new ScreenController(new Screen(3, 4, 25, 3, new Board(5, 5, 16, AssetsRepository)));
+            ScreenController = new ScreenController(new Screen(3, 4, 25, 3, new Board(25, 50, 8, AssetsRepository)));
+            //ScreenController = new ScreenController(new Screen(3, 4, 25, 3, new Board(5, 5, 16, AssetsRepository)));
             UserService.User = new User()
             {
                 Provisions = 101,
@@ -68,7 +64,6 @@ namespace DanielsHunter
                 Y = 0,
             };
             AssetsRepository.AddToAssetRepository(daniel);
-            ScreenController.Screen.Board.AssetsRepository = AssetsRepository;
             BoardController = new BoardController(ScreenController.Screen.Board);
             GameStateController = new GameStateController(this);
 

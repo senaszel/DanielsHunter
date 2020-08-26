@@ -32,6 +32,23 @@ namespace DanielsHunter
             }
         }
 
-        
+        internal void MoveUser((int ofX, int ofY) modification,Screen screen)
+        {
+            if (User.X + modification.ofX >= 0 &&
+                    User.X + modification.ofX < screen.Board.Width &&
+                    User.Y + modification.ofY < screen.Board.Height &&
+                    User.Y + modification.ofY >= 0)
+            {
+                if (screen.Board.PlayArea[User.Y + modification.ofY].Substring(User.X + modification.ofX, 1) != "#")
+                {
+                    User.X = User.X + modification.ofX;
+                    User.Y = User.Y + modification.ofY;
+                }
+            }
+            else
+            {
+                PlayerInputService.GetPlayersInput(screen, User);
+            }
+        }
     }
 }

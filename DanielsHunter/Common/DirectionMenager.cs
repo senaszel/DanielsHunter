@@ -19,6 +19,7 @@ namespace DanielsHunter
                     ConsoleKey.NumPad3 => (+1, +1),
                     ConsoleKey.NumPad4 => (-1,0),
                     ConsoleKey.NumPad6 => (+1,0),
+                    ConsoleKey.NumPad5 => (0,0),
                     ConsoleKey.NumPad7 => (-1,-1),
                     ConsoleKey.NumPad8 => (0,-1),
                     ConsoleKey.NumPad9 => (+1,-1),

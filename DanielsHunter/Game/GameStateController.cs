@@ -57,7 +57,6 @@ namespace DanielsHunter
 
         internal void HasDanielBeenCought(GameController gameController)
         {
-            //if (gameController.ScreenController.Screen.Board.PlayArea[gameController.UserService.User.Y].Substring(gameController.UserService.User.X, 1) == "d")
             if (!gameController.AssetsRepository.IsAsset("Daniel"))
             {
                 gameController.UserService.User.Meat += 10;
