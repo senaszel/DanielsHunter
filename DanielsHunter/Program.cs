@@ -1,5 +1,5 @@
-﻿using DanielsHunter.Common;
-using DanielsHunter.Service;
+﻿using DanielsHunter.App.Common;
+using DanielsHunter.App.Manager;
 
 namespace DanielsHunter
 {
@@ -7,9 +7,10 @@ namespace DanielsHunter
     {
         static void Main()
         {
-            // IntroService.Intro();
-            // TitleScreenService.TitleScreen();
-            new GameService().Set().Start();
+           // IntroService.Intro();
+           // TitleScreenService.TitleScreen();
+            new GameManager().Set()
+                             .Run();
         }
     }
 }
