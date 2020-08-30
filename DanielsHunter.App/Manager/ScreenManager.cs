@@ -1,5 +1,8 @@
 ﻿using DanielsHunter.App.Concrete;
 using DanielsHunter.Domain.Entity;
+using System;
+using System.ComponentModel;
+using System.Linq;
 
 namespace DanielsHunter.App.Manager
 {
@@ -14,18 +17,19 @@ namespace DanielsHunter.App.Manager
             this.screen = screen;
         }
 
-        public (int, int) FillFooterMenuWithContent(int chosen, params string[] message)
+        public (int?, int) FillFooterMenuWithContent(int? chosen, params string[] message)
         {
-            screen.Footer = new string[message.Length];
-            for (int i = 0; i < message.Length; i++)
+            screen.Footer = new string[message.Length + 1];
+            screen.Footer[0] = string.Empty;
+            for (int i = 1; i < message.Length + 1; i++)
             {
-                if (i == chosen)
+                if (i == chosen + 1)
                 {
-                    screen.Footer[i] = string.Concat(new string(' ', screen.Board.Offset - 2), ">>> ", message[i], " <<<");
+                    screen.Footer[i] = string.Concat(new string(' ', screen.Board.Offset - 2), ">>> ", message[i-1], " <<<");
                 }
                 else
                 {
-                    screen.Footer[i] = string.Concat(new string(' ', screen.Board.Offset), message[i]);
+                    screen.Footer[i] = string.Concat(new string(' ', screen.Board.Offset), message[i-1]);
                 }
 
             }
@@ -34,21 +38,37 @@ namespace DanielsHunter.App.Manager
 
         public void EraseFooter()
         {
-            FillFooterMenuWithContent(-1, string.Empty);
+            FillFooterMenuWithContent(null, string.Empty);
         }
 
-        public void ShowScreen(bool displayFooter = false)
+        public void UpdateScreen(Game game, bool displayFooter = false)
+        {
+            game.screenManager.GenerateUpperScreen(game.assetService);
+            game.screenManager.ShowScreen(game, displayFooter);
+        }
+
+        public void ShowScreen(Game game, bool displayFooter = false)
         {
             if (!displayFooter)
             {
                 EraseFooter();
             }
 
-            string separator = "\r\n\r\n";
+            GeneratePlayArea(game);
             GenerateView();
-            string screen = string.Concat(string.Join('\n', this.screen.Header), separator, string.Join('\n', this.screen.CommStrip), separator, string.Join('\n', this.screen.View), separator, string.Join('\n', this.screen.Footer));
+            string screen = string.Join('\n', string.Join('\n', this.screen.Header), string.Join('\n', this.screen.CommStrip), string.Join('\n', this.screen.View), string.Join('\n', this.screen.Footer));
+            System.Console.Clear();
             System.Console.CursorVisible = false;
             System.Console.WriteLine(screen);
+        }
+
+        private void GeneratePlayArea(Game game)
+        {
+            AssetManager assetManager = new AssetManager(game);
+            AssetService assetService = game.assetService;
+
+            assetManager.RemoveAssetFromTheBoard(assetService.GetAsset("User"));
+            assetManager.PlaceAssetOnTheBoard(game.userService.User);
         }
 
         public void GenerateView()
@@ -74,6 +94,13 @@ namespace DanielsHunter.App.Manager
             GenerateCommStrip(assetService);
         }
 
+        private void GenerateHeader()
+        {
+            screen.Header[0] = "\r\n";
+            screen.Header[1] = string.Concat(new string(' ', 20), "D A N I E L S   H U N T E R :");
+            screen.Header[2] = "\r\n";
+        }
+
         private void GenerateCommStrip(AssetService assetService)
         {
             Daniel daniel = (Daniel)assetService.GetAsset("Daniel");
@@ -84,13 +111,6 @@ namespace DanielsHunter.App.Manager
             screen.CommStrip[1] = $"\t\t\tUser\tX : {user.X}\tY : {user.Y}";
             screen.CommStrip[2] = $"\t\t\tchosenAction : {user.ChosenAction}";
             screen.CommStrip[3] = $"Provision's Left: {user.Provisions}\t\t\t\t\tAquired Meat: {user.Meat}";
-        }
-
-        private void GenerateHeader()
-        {
-            screen.Header[0] = "\r\n";
-            screen.Header[1] = string.Concat(new string(' ', 20), "D A N I E L S   H U N T E R :");
-            screen.Header[2] = "\r\n";
         }
 
         public void InitialisePlayArea()

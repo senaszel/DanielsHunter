@@ -5,8 +5,8 @@ namespace DanielsHunter.App.Manager
 {
     class AssetManager
     {
-        private AssetService assetService;
-        private BoardManager boardManager;
+        private readonly AssetService assetService;
+        private readonly BoardManager boardManager;
         public AssetManager(Game game)
         {
             this.assetService = game.assetService;
@@ -16,13 +16,13 @@ namespace DanielsHunter.App.Manager
         public void PlaceAssetOnTheBoard(Asset asset)
         {
             assetService.AddToAssetRepository(asset);
-            boardManager.InsertSymbolIntoPlayArea(asset.X, asset.Y, asset.Symbol);
+            boardManager.InsertSymbolIntoPlayArea(asset);
         }
 
         public void RemoveAssetFromTheBoard(Asset asset)
         {
             assetService.RemoveFromAssetsRepository(asset);
-            boardManager.RemoveSymbolFromPlayArea(asset.X, asset.Y);
+            boardManager.RemoveSymbolFromPlayArea(asset.Key);
         }
     }
 }

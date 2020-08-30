@@ -8,7 +8,7 @@ namespace DanielsHunter.Domain.Enum
     {
         MOVE,
         CHOP_TREE,
-        NO_CHANGE,
-        TEST
+        SHOOT,
+        NO_CHANGE
     }
 }

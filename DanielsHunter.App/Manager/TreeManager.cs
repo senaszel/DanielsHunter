@@ -5,7 +5,7 @@ namespace DanielsHunter.App.Manager
 {
     class TreeManager 
     {
-        private Tree tree;
+        private readonly Tree tree;
 
         public TreeManager()
         {
@@ -16,13 +16,13 @@ namespace DanielsHunter.App.Manager
             this.tree = tree;
         }
 
-        public void GrowTrees(Game game)
+        public void GrowTreesAroundPlayer(Game game)
         {
             (int ofX, int ofY)[] modification = new[] { (-1, 0), (-1, -1), (0, -1), (1, -1), (1, 0), (1, 1), (0, 1), (-1, 1) };
             for (int i = 0; i < modification.Length; i++)
             {
-                int newX = game.userActionManager.user.X + modification[i].ofX;
-                int newY = game.userActionManager.user.Y + modification[i].ofY;
+                int newX = game.userService.User.X + modification[i].ofX;
+                int newY = game.userService.User.Y + modification[i].ofY;
                 if (newX >= 0 &&
                     newX < game.boardService.Board.Width &&
                     newY < game.boardService.Board.Height &&

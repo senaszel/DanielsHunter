@@ -12,9 +12,9 @@ namespace DanielsHunter.App.Manager
             ConsoleKey key;
             do
             {
-                key = new UserActionManager(game.userService.User).ChooseAction(game.actionService);
+                key = game.userActionManager.ChooseAction(game.actionService);
                 if (key == ConsoleKey.Escape) { Environment.Exit(0); }
-                UpdateScreen(game);
+                game.screenManager.UpdateScreen(game);
 
             } while (key == ConsoleKey.Q ||
                      key == ConsoleKey.W ||
@@ -23,22 +23,21 @@ namespace DanielsHunter.App.Manager
             if (game.userService.User.ChosenAction == UserActionEnum.MOVE)
             {
                 (int ofX, int ofY) modification = DirectionMenager.PassDirection(key);
-                new UserActionManager(game.userService.User).MoveUser(modification, game);
+                game.userActionManager.MoveUser(modification, game);
+                game.screenManager.UpdateScreen(game);
             }
-            else if (game.userService.User.ChosenAction == UserActionEnum.CHOP_TREE)
+            if (game.userService.User.ChosenAction == UserActionEnum.CHOP_TREE)
             {
-                new UserActionManager(game.userService.User).ChopTree(game.screenService.Screen.Board, game.assetService, key);
+                game.userActionManager.ChopTree(game.screenService.Screen.Board, game.assetService, key);
                 game.actionService.ResetToMOVE();
-                UpdateScreen(game);
+                game.screenManager.UpdateScreen(game);
             }
-        }
-
-        private static void UpdateScreen(Game game)
-        {
-            Console.Clear();
-            game.screenManager.FillFooterMenuWithContent(0, $"{game.userService.User.ChosenAction}");
-            game.screenManager.GenerateUpperScreen(game.assetService);
-            game.screenManager.ShowScreen(true);
+            else if (game.userService.User.ChosenAction == UserActionEnum.SHOOT)
+            {
+                game.userActionManager.Shoot(game,key);
+                game.actionService.ResetToMOVE();
+                game.screenManager.UpdateScreen(game);
+            }
         }
     }
 }

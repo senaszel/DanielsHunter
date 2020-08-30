@@ -6,7 +6,7 @@ namespace DanielsHunter.App.Manager
 {
     public class GameManager
     {
-        private Game game;
+        private readonly Game game;
         public GameManager()
         {
             game = new Game();
@@ -18,23 +18,17 @@ namespace DanielsHunter.App.Manager
 
         public GameManager Run()
         {
-            game.screenManager.ShowScreen();
             do
             {
                 System.Console.Clear();
-                game.gameStateManager.AdvanceCounter(1);
-                game.userActionManager.user.Provisions -= 1;
+                game.screenManager.UpdateScreen(game);
 
+                game.gameStateManager.AdvanceCounter(1);
+                game.userService.User.Provisions -= 1;
 
                 game.gameStateManager.CheckIfStarved(game);
-
-                new AssetManager(game).PlaceAssetOnTheBoard(game.userService.User);
                 game.gameStateManager.HasDanielBeenCought(game);
 
-                game.screenManager.GenerateUpperScreen(game.assetService);
-                game.screenManager.ShowScreen();
-
-                new AssetManager(game).RemoveAssetFromTheBoard(game.userService.User);
                 UserInputManager.GetPlayersInput(game);
 
             } while (game.gameState.Outcome == GameOutcome.PENDING);
@@ -47,7 +41,6 @@ namespace DanielsHunter.App.Manager
             Screen screen = new Screen(25, board);
             game.screenService.AddItem(screen);
             game.screenManager = new ScreenManager(game.screenService.Screen);
-            //ScreenController = new ScreenController(new Screen(3, 4, 25, 3, new Board(5, 5, 16, AssetsRepository)));
             game.boardService.AddItem(board);
             game.boardManager = new BoardManager(game.boardService.Board);
 
@@ -60,7 +53,7 @@ namespace DanielsHunter.App.Manager
             };
             game.userService.AddItem(user);
             game.userActionManager = new UserActionManager(game.userService.User);
-            game.assetService.AddToAssetRepository(game.userActionManager.user);
+            game.assetService.AddToAssetRepository(game.userService.User);
             game.actionService = new ActionService(game.userService.User);
 
             game.gameStateManager = new GameStateManager(game.gameState);

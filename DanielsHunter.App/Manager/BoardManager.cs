@@ -6,7 +6,7 @@ namespace DanielsHunter.App.Manager
 {
     public class BoardManager
     {
-        private Board board;
+        private readonly Board board;
 
         public BoardManager()
         {
@@ -16,20 +16,14 @@ namespace DanielsHunter.App.Manager
             this.board = board;
         }
 
-        public void InsertSymbolIntoPlayArea(int x, int y, string symbol)
+        public void InsertSymbolIntoPlayArea(Asset asset)
         {
-            board.PlayArea[y] = board.PlayArea[y].Insert(x, symbol).Remove(x + 1, 1);
+            board.PlayArea[asset.Y] = board.PlayArea[asset.Y].Insert(asset.X, asset.Symbol).Remove(asset.X + 1, 1);
         }
 
-        internal void RemoveSymbolFromPlayArea(int x, int y)
+        public void RemoveSymbolFromPlayArea((int x, int y)key)
         {
-            // todo Zrobić wspólną walidacje.
-            //x = x >= board.Width ? board.Width-1 : x;
-            //x = x < 0 ? 0 : x;
-            //y = y >= board.Height ? board.Height-1 : y;
-            //y = y < 0 ? 0 : y;
-
-            board.PlayArea[y] = board.PlayArea[y].Insert(x, " ").Remove(x + 1, 1);
+            board.PlayArea[key.y] = board.PlayArea[key.y].Insert(key.x, " ").Remove(key.x + 1, 1);
         }
 
 

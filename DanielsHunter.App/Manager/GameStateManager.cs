@@ -6,9 +6,9 @@ using DanielsHunter.Domain.Enum;
 
 namespace DanielsHunter.App.Manager
 {
-    public class GameStateManager 
+    public class GameStateManager
     {
-        private GameState gameState;
+        private readonly GameState gameState;
         public GameStateManager()
         {
         }
@@ -24,12 +24,11 @@ namespace DanielsHunter.App.Manager
 
         public void CheckIfEnoughCollected(Game game)
         {
-            if (MeatCollectionCondition(game.userActionManager.user.Meat))
+            if (MeatCollectionCondition(game.userService.User.Meat))
             {
-                game.screenManager.GenerateUpperScreen(game.assetService);
-                game.screenManager.ShowScreen();
+                game.screenManager.UpdateScreen(game);
                 gameState.Outcome = GameOutcome.WON;
-                QuitService.Quit(game.screenManager, gameState, ConsoleKey.Escape, 3);
+                QuitService.Quit(game, ConsoleKey.Escape, 3);
             }
         }
 
@@ -44,12 +43,11 @@ namespace DanielsHunter.App.Manager
 
         public void CheckIfStarved(Game game)
         {
-            if (AreProvisionsZeroOrLess(game.userActionManager.user.Provisions))
+            if (AreProvisionsZeroOrLess(game.userService.User.Provisions))
             {
-                game.screenManager.GenerateUpperScreen(game.assetService);
-                game.screenManager.ShowScreen();
+                game.screenManager.UpdateScreen(game);
                 gameState.Outcome = GameOutcome.LOST;
-                QuitService.Quit(game.screenManager, gameState, ConsoleKey.Escape, 3);
+                QuitService.Quit(game, ConsoleKey.Escape, 3);
             }
         }
 
@@ -62,22 +60,27 @@ namespace DanielsHunter.App.Manager
             return false;
         }
 
-        internal void HasDanielBeenCought(Game game)
+        public void HasDanielBeenCought(Game game)
         {
-            var oldDaniel = game.assetService.GetAsset("Daniel");
-            var danielKey = oldDaniel.Key;
-            var userKey = game.assetService.GetAsset("User").Key;
-            if (danielKey == userKey)
+            if (game.assetService.GetAsset("Daniel").Key == game.assetService.GetAsset("User").Key)
             {
-                game.userActionManager.user.Meat += 10;
-                CheckIfEnoughCollected(game);
-                game.userActionManager.user.Provisions += 21;
-                game.assetService.RemoveFromAssetsRepository(oldDaniel);
-                new TreeManager().GrowTrees(game);
-                Daniel newDaniel = new Daniel();
-                game.assetService.AddToAssetRepository(newDaniel);
-                new DanielManager(newDaniel).PlaceDanielAtRandomPlaceOnTheBoard(game);
+                ScoreDaniel(game);
+                game.screenManager.UpdateScreen(game);
             }
+        }
+
+        public void ScoreDaniel(Game game)
+        {
+            game.userService.User.Meat += 10;
+            CheckIfEnoughCollected(game);
+            game.userService.User.Provisions += 21;
+            Daniel oldDaniel = (Daniel)game.assetService.GetAsset("Daniel");
+            game.boardManager.RemoveSymbolFromPlayArea(oldDaniel.Key);
+            game.assetService.RemoveFromAssetsRepository(oldDaniel);
+            new TreeManager().GrowTreesAroundPlayer(game);
+            Daniel newDaniel = new Daniel();
+            game.assetService.AddToAssetRepository(newDaniel);
+            new DanielManager(newDaniel).PlaceDanielAtRandomPlaceOnTheBoard(game);
         }
     }
 }

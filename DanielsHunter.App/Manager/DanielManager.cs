@@ -5,7 +5,7 @@ namespace DanielsHunter.App.Manager
 {
     public class DanielManager
     {
-        private Daniel daniel;
+        private readonly Daniel daniel;
 
         public DanielManager(Daniel daniel)
         {
