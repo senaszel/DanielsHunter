@@ -35,7 +35,7 @@ namespace DanielsHunter.App.Manager
                 game.screenManager.ShowScreen();
 
                 new AssetManager(game).RemoveAssetFromTheBoard(game.userService.User);
-                UserInputManager.GetPlayersInput(game.screenService.Screen, game.userActionManager.user, game.assetService);
+                UserInputManager.GetPlayersInput(game);
 
             } while (game.gameState.Outcome == GameOutcome.PENDING);
             return this;
@@ -61,6 +61,7 @@ namespace DanielsHunter.App.Manager
             game.userService.AddItem(user);
             game.userActionManager = new UserActionManager(game.userService.User);
             game.assetService.AddToAssetRepository(game.userActionManager.user);
+            game.actionService = new ActionService(game.userService.User);
 
             game.gameStateManager = new GameStateManager(game.gameState);
             game.screenManager.InitialisePlayArea();

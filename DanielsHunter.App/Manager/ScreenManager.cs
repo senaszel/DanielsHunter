@@ -5,7 +5,7 @@ namespace DanielsHunter.App.Manager
 {
     public class ScreenManager
     {
-        private Screen screen;
+        private readonly Screen screen;
         public ScreenManager()
         {
         }
@@ -68,21 +68,21 @@ namespace DanielsHunter.App.Manager
             }
         }
 
-        public void GenerateUpperScreen(AssetService assetsRepository)
+        public void GenerateUpperScreen(AssetService assetService)
         {
             GenerateHeader();
-            GenerateCommStrip(assetsRepository);
+            GenerateCommStrip(assetService);
         }
 
-        private void GenerateCommStrip(AssetService assetsRepository)
+        private void GenerateCommStrip(AssetService assetService)
         {
-            Daniel daniel = (Daniel)assetsRepository.GetAsset("Daniel");
+            Daniel daniel = (Daniel)assetService.GetAsset("Daniel");
 
-            User user = (User)assetsRepository.GetAsset("User");
+            User user = (User)assetService.GetAsset("User");
 
             screen.CommStrip[0] = $"\t\t\tDaniel\tX : {daniel.X}\tY : {daniel.Y}";
             screen.CommStrip[1] = $"\t\t\tUser\tX : {user.X}\tY : {user.Y}";
-            screen.CommStrip[2] = string.Empty;
+            screen.CommStrip[2] = $"\t\t\tchosenAction : {user.ChosenAction}";
             screen.CommStrip[3] = $"Provision's Left: {user.Provisions}\t\t\t\t\tAquired Meat: {user.Meat}";
         }
 

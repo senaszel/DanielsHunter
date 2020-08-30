@@ -1,24 +1,44 @@
 ﻿using DanielsHunter.App.Common;
 using DanielsHunter.App.Concrete;
-using DanielsHunter.Domain.Entity;
+using DanielsHunter.Domain.Enum;
+using System;
 
 namespace DanielsHunter.App.Manager
 {
     static class UserInputManager
     {
-        public static void GetPlayersInput(Screen screen, User user,AssetService assetService)
+        public static void GetPlayersInput(Game game)
         {
-            (int ofX, int ofY) modification = DirectionMenager.GetDirection();
-            if (user.X == user.X + modification.ofX &&
-                user.Y == user.Y + modification.ofY)
+            ConsoleKey key;
+            do
             {
-                new MenuManager().EnabelActionChoice(screen, user,assetService);
+                key = new UserActionManager(game.userService.User).ChooseAction(game.actionService);
+                if (key == ConsoleKey.Escape) { Environment.Exit(0); }
+                UpdateScreen(game);
+
+            } while (key == ConsoleKey.Q ||
+                     key == ConsoleKey.W ||
+                     key == ConsoleKey.NumPad5);
+
+            if (game.userService.User.ChosenAction == UserActionEnum.MOVE)
+            {
+                (int ofX, int ofY) modification = DirectionMenager.PassDirection(key);
+                new UserActionManager(game.userService.User).MoveUser(modification, game);
             }
-            else
+            else if (game.userService.User.ChosenAction == UserActionEnum.CHOP_TREE)
             {
-                new UserActionManager(user).MoveUser(modification, screen,assetService);
+                new UserActionManager(game.userService.User).ChopTree(game.screenService.Screen.Board, game.assetService, key);
+                game.actionService.ResetToMOVE();
+                UpdateScreen(game);
             }
         }
 
+        private static void UpdateScreen(Game game)
+        {
+            Console.Clear();
+            game.screenManager.FillFooterMenuWithContent(0, $"{game.userService.User.ChosenAction}");
+            game.screenManager.GenerateUpperScreen(game.assetService);
+            game.screenManager.ShowScreen(true);
+        }
     }
 }

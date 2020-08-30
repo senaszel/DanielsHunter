@@ -4,13 +4,11 @@ namespace DanielsHunter.App.Common
 {
     internal class DirectionMenager
     {
-        internal static (int, int) GetDirection()
+        internal static (int, int) PassDirection(ConsoleKey key)
         {
-            ConsoleKey key;
             (int?, int?) direction;
             do
             {
-                key = Console.ReadKey(true).Key;
                 direction = key switch
                 {
                     ConsoleKey.NumPad1 => (-1, +1),
@@ -24,6 +22,18 @@ namespace DanielsHunter.App.Common
                     ConsoleKey.NumPad9 => (+1, -1),
                     _ => (null, null)
                 };
+            } while (direction == (null, null));
+            return (Convert.ToInt32(direction.Item1), Convert.ToInt32(direction.Item2));
+        }
+
+        internal static (int, int) GetDirection()
+        {
+            ConsoleKey key;
+            (int?, int?) direction;
+            do
+            {
+                key = Console.ReadKey(true).Key;
+                direction = PassDirection(key);
             } while (direction == (null, null));
             return (Convert.ToInt32(direction.Item1), Convert.ToInt32(direction.Item2));
         }
