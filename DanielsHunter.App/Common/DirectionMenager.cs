@@ -37,5 +37,22 @@ namespace DanielsHunter.App.Common
             } while (direction == (null, null));
             return (Convert.ToInt32(direction.Item1), Convert.ToInt32(direction.Item2));
         }
+
+        public static ConsoleKey ConvertIntToConsoleKey(int source)
+        {
+            ConsoleKey result = source switch
+            {
+                1 => ConsoleKey.NumPad1,
+                2 => ConsoleKey.NumPad2,
+                3 => ConsoleKey.NumPad3,
+                4 => ConsoleKey.NumPad4,
+                5 => ConsoleKey.NumPad5,
+                6 => ConsoleKey.NumPad6,
+                7 => ConsoleKey.NumPad7,
+                8 => ConsoleKey.NumPad8,
+                9 => ConsoleKey.NumPad9,
+            };
+            return result;
+        }
     }
 }

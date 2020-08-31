@@ -1,5 +1,6 @@
 ﻿using DanielsHunter.App.Common;
 using DanielsHunter.App.Concrete;
+using DanielsHunter.Domain.Entity;
 using DanielsHunter.Domain.Enum;
 using System;
 
@@ -38,6 +39,7 @@ namespace DanielsHunter.App.Manager
                 game.actionService.ResetToMOVE();
                 game.screenManager.UpdateScreen(game);
             }
+            new DanielManager((Daniel)game.assetService.GetAsset("Daniel")).RunDaniel(game);
         }
     }
 }
