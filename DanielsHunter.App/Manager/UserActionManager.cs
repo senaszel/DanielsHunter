@@ -17,21 +17,20 @@ namespace DanielsHunter.App.Manager
             this.user = user;
         }
 
-        internal void ChopTree(Board board, AssetService assetService, ConsoleKey key)
+        internal void ChopTree(Game game, ConsoleKey key)
         {
             Tree tree = new Tree();
             (int x, int y) direction = DirectionMenager.PassDirection(key);
-            var playArea = board.PlayArea;
             int X = user.X + direction.x;
             int Y = user.Y + direction.y;
             if (X >= 0 &&
-                X < board.Width &&
+                X < game.boardService.Board.Width &&
                 Y >= 0 &&
-                Y < board.Height &&
-                playArea[Y].Substring(X, 1) == tree.Symbol)
+                Y < game.boardService.Board.Height &&
+                 game.boardService.Board.PlayArea[Y].Substring(X, 1) == tree.Symbol)
             {
-                assetService.RemoveFromAssetsRepository(assetService.GetAsset((X, Y)));
-                new BoardManager(board).RemoveSymbolFromPlayArea((X, Y));
+                game.assetService.RemoveFromAssetsRepository(game.assetService.GetAsset((X, Y)));
+                game.boardManager.RemoveSymbolFromPlayArea((X, Y));
             }
         }
 
@@ -66,9 +65,9 @@ namespace DanielsHunter.App.Manager
         public void MoveUser((int ofX, int ofY) modification, Game game)
         {
             AssetManager assetManager = new AssetManager(game);
-            assetManager.RemoveAssetFromTheBoard(game.userService.User);
+            assetManager.DisposeAsset(game.userService.User);
             ChangeUserKey(modification, game);
-            assetManager.PlaceAssetOnTheBoard(game.userService.User);
+            assetManager.IntroduceAsset(game.userService.User);
         }
 
         private void ChangeUserKey((int ofX, int ofY) modification, Game game)
@@ -86,7 +85,7 @@ namespace DanielsHunter.App.Manager
             }
             else
             {
-                new AssetManager(game).PlaceAssetOnTheBoard(game.userService.User);
+                game.assetManager.IntroduceAsset(game.userService.User);
                 UserInputManager.GetPlayersInput(game);
             }
         }

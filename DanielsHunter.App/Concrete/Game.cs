@@ -6,6 +6,7 @@ namespace DanielsHunter.App.Concrete
     public class Game : BaseEntity
     {
         public AssetService assetService;
+        public AssetManager assetManager;
         public GameState gameState;
         public GameStateManager gameStateManager;
         public UserService userService;
@@ -28,6 +29,7 @@ namespace DanielsHunter.App.Concrete
             userService = new UserService();
             boardService = new BoardService();
             actionService = new ActionService();
+            assetManager = new AssetManager();
         }
 
     }

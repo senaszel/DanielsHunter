@@ -30,9 +30,9 @@ namespace DanielsHunter.App.Manager
                     placePossible = true;
                 }
             } while (!placePossible);
-            new AssetManager(game).RemoveAssetFromTheBoard(daniel);
+            game.assetManager.DisposeAsset(daniel);
             Daniel newDaniel = new Daniel(randomX, randomY);
-            new AssetManager(game).PlaceAssetOnTheBoard(newDaniel);
+            game.assetManager.IntroduceAsset(newDaniel);
         }
 
         public void RunDaniel(Game game)
@@ -40,28 +40,38 @@ namespace DanielsHunter.App.Manager
             System.Random random = new System.Random();
             Daniel daniel = (Daniel)game.assetService.GetAsset("Daniel");
             Daniel newDaniel = daniel;
-            new AssetManager(game).RemoveAssetFromTheBoard(daniel);
+            game.assetManager.DisposeAsset(daniel);
             User user = game.userService.User;
-            (int higher,int lower) Y = newDaniel.Y > user.Y ? (newDaniel.Y,user.Y) : (user.Y,newDaniel.Y);
-            (int higher, int lower) X = newDaniel.X > user.X ? (newDaniel.X,user.X) : (user.X,newDaniel.Y);
+            (int higher, int lower) Y = newDaniel.Y > user.Y ? (newDaniel.Y, user.Y) : (user.Y, newDaniel.Y);
+            (int higher, int lower) X = newDaniel.X > user.X ? (newDaniel.X, user.X) : (user.X, newDaniel.Y);
             int distance = Y.higher - Y.lower >= X.higher - X.lower ? (X.higher - X.lower) : (Y.higher - Y.lower);
             if (distance < 11)
             {
-                int randomDirection = random.Next(1,10);
-                var key = DirectionMenager.ConvertIntToConsoleKey(randomDirection);
-                (int x, int y) modificators = DirectionMenager.PassDirection(key);
-                int newX = newDaniel.X + modificators.x;
-                int newY = newDaniel.Y + modificators.y;
-                if (newX >= 0 &&
-                    newX < game.boardService.Board.Width &&
-                    newY >= 0 &&
-                    newY < game.boardService.Board.Height)
+                bool placePossible = false;
+                do
                 {
-                    newDaniel.X += modificators.x;
-                    newDaniel.Y += modificators.y;
-                }
+                    int newX = newDaniel.X;
+                    int newY = newDaniel.Y;
+                    int randomDirection = random.Next(1, 10);
+                    var key = DirectionMenager.ConvertIntToConsoleKey(randomDirection);
+                    (int x, int y) modificators = DirectionMenager.PassDirection(key);
+                    newX += modificators.x;
+                    newY += modificators.y;
+                    if (newX >= 0 &&
+                        newX < game.boardService.Board.Width &&
+                        newY >= 0 &&
+                        newY < game.boardService.Board.Height)
+                    {
+                        if (!game.assetService.IsAsset((newX, newY)))
+                        {
+                            placePossible = true;
+                            newDaniel.X += modificators.x;
+                            newDaniel.Y += modificators.y;
+                        }
+                    }
+                } while (!placePossible);
             }
-            new AssetManager(game).PlaceAssetOnTheBoard(newDaniel);
+            game.assetManager.IntroduceAsset(newDaniel);
         }
 
         private object AssetManager()

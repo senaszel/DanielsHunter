@@ -25,11 +25,12 @@ namespace DanielsHunter.App.Manager
             {
                 (int ofX, int ofY) modification = DirectionMenager.PassDirection(key);
                 game.userActionManager.MoveUser(modification, game);
+                game.gameStateManager.HasDanielBeenCought(game);
                 game.screenManager.UpdateScreen(game);
             }
             if (game.userService.User.ChosenAction == UserActionEnum.CHOP_TREE)
             {
-                game.userActionManager.ChopTree(game.screenService.Screen.Board, game.assetService, key);
+                game.userActionManager.ChopTree(game, key);
                 game.actionService.ResetToMOVE();
                 game.screenManager.UpdateScreen(game);
             }

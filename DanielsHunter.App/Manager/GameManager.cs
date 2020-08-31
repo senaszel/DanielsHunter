@@ -20,16 +20,10 @@ namespace DanielsHunter.App.Manager
         {
             do
             {
-                System.Console.Clear();
-                game.screenManager.UpdateScreen(game);
-
+                UserInputManager.GetPlayersInput(game);
                 game.gameStateManager.AdvanceCounter(1);
                 game.userService.User.Provisions -= 1;
-
                 game.gameStateManager.CheckIfStarved(game);
-                game.gameStateManager.HasDanielBeenCought(game);
-
-                UserInputManager.GetPlayersInput(game);
 
             } while (game.gameState.Outcome == GameOutcome.PENDING);
             return this;
@@ -38,12 +32,13 @@ namespace DanielsHunter.App.Manager
         public GameManager Set()
         {
             Board board = new Board(25, 50, 8);
+            //Board board = new Board(10, 10, 8);
             Screen screen = new Screen(25, board);
             game.screenService.AddItem(screen);
             game.screenManager = new ScreenManager(game.screenService.Screen);
             game.boardService.AddItem(board);
             game.boardManager = new BoardManager(game.boardService.Board);
-
+            game.assetManager = new AssetManager(game);
             User user = new User()
             {
                 Provisions = 101,
@@ -58,7 +53,9 @@ namespace DanielsHunter.App.Manager
 
             game.gameStateManager = new GameStateManager(game.gameState);
             game.screenManager.InitialisePlayArea();
+            game.assetManager.InitialiseWithTrees(game.boardService,40);
             new DanielManager(new Daniel()).PlaceDanielAtRandomPlaceOnTheBoard(game);
+            game.screenManager.UpdateScreen(game);
             return this;
         }
     }

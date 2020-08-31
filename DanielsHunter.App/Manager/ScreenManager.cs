@@ -64,13 +64,11 @@ namespace DanielsHunter.App.Manager
 
         private void GeneratePlayArea(Game game)
         {
-            AssetManager assetManager = new AssetManager(game);
-            AssetService assetService = game.assetService;
-            var all = assetService.GetAllItems().ToList();
+            var all = game.assetService.GetAllItems().ToList();
             all.ForEach(asset =>
             {
-                assetManager.RemoveAssetFromTheBoard(asset);
-                assetManager.PlaceAssetOnTheBoard(asset);
+                game.assetManager.DisposeAsset(asset);
+                game.assetManager.IntroduceAsset(asset);
             });
         }
 

@@ -7,8 +7,8 @@ namespace DanielsHunter
     {
         static void Main()
         {
-           // IntroService.Intro();
-           // TitleScreenService.TitleScreen();
+            IntroService.Intro();
+            TitleScreenService.TitleScreen();
             new GameManager().Set()
                              .Run();
         }

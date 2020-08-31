@@ -30,7 +30,7 @@ namespace DanielsHunter.App.Manager
                 {
                     if (!game.assetService.IsAsset((newX, newY)))
                     {
-                        new AssetManager(game).PlaceAssetOnTheBoard(new Tree("TreeController-GrowTrees-generatedTree", newX, newY));
+                        game.assetManager.IntroduceAsset(new Tree("TreeController-GrowTrees-generatedTree", newX, newY));
                     }
                 }
             }
