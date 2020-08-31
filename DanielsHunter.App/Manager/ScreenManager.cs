@@ -25,11 +25,11 @@ namespace DanielsHunter.App.Manager
             {
                 if (i == chosen + 1)
                 {
-                    screen.Footer[i] = string.Concat(new string(' ', screen.Board.Offset - 2), ">>> ", message[i-1], " <<<");
+                    screen.Footer[i] = string.Concat(new string(' ', screen.Board.Offset - 2), ">>> ", message[i - 1], " <<<");
                 }
                 else
                 {
-                    screen.Footer[i] = string.Concat(new string(' ', screen.Board.Offset), message[i-1]);
+                    screen.Footer[i] = string.Concat(new string(' ', screen.Board.Offset), message[i - 1]);
                 }
 
             }
@@ -66,9 +66,12 @@ namespace DanielsHunter.App.Manager
         {
             AssetManager assetManager = new AssetManager(game);
             AssetService assetService = game.assetService;
-
-            assetManager.RemoveAssetFromTheBoard(assetService.GetAsset("User"));
-            assetManager.PlaceAssetOnTheBoard(game.userService.User);
+            var all = assetService.GetAllItems().ToList();
+            all.ForEach(asset =>
+            {
+                assetManager.RemoveAssetFromTheBoard(asset);
+                assetManager.PlaceAssetOnTheBoard(asset);
+            });
         }
 
         public void GenerateView()
