@@ -9,6 +9,7 @@ namespace DanielsHunter
         {
             IntroService.Intro();
             TitleScreenService.TitleScreen();
+
             new GameManager().Set()
                              .Run();
         }

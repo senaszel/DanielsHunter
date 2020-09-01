@@ -74,9 +74,5 @@ namespace DanielsHunter.App.Manager
             game.assetManager.IntroduceAsset(newDaniel);
         }
 
-        private object AssetManager()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
