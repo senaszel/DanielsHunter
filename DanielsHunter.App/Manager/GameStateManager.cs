@@ -76,10 +76,10 @@ namespace DanielsHunter.App.Manager
             game.userService.User.Provisions += 21;
             Daniel oldDaniel = (Daniel)game.assetService.GetAsset("Daniel");
             game.boardManager.RemoveSymbolFromPlayArea(oldDaniel.Key);
-            game.assetService.RemoveFromAssetsRepository(oldDaniel);
+            game.assetService.RemoveFromAssets(oldDaniel);
             new TreeManager().GrowTreesAroundPlayer(game);
             Daniel newDaniel = new Daniel();
-            game.assetService.AddToAssetRepository(newDaniel);
+            game.assetService.AddToAssets(newDaniel);
             new DanielManager(newDaniel).PlaceDanielAtRandomPlaceOnTheBoard(game);
         }
     }

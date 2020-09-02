@@ -16,6 +16,7 @@ namespace DanielsHunter.App.Concrete
         public BoardManager boardManager;
         public ScreenService screenService;
         public ScreenManager screenManager;
+        public UpkeepPhase upkeepPhase;
 
         public Game()
         {
@@ -30,6 +31,7 @@ namespace DanielsHunter.App.Concrete
             boardService = new BoardService();
             actionService = new ActionService();
             assetManager = new AssetManager();
+            upkeepPhase = new UpkeepPhase();
         }
 
     }

@@ -6,8 +6,9 @@ using System.Text;
 
 namespace DanielsHunter.App.Concrete
 {
-    public class ScreenService : BaseService<BaseEntity>
+    public class ScreenService : BaseService<BaseEntity> 
     {
         public Screen Screen { get { return (Screen)GetFirstItem(); } }
+
     }
 }

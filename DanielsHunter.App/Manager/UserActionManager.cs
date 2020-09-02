@@ -29,7 +29,7 @@ namespace DanielsHunter.App.Manager
                 Y < game.boardService.Board.Height &&
                  game.boardService.Board.PlayArea[Y].Substring(X, 1) == tree.Symbol)
             {
-                game.assetService.RemoveFromAssetsRepository(game.assetService.GetAsset((X, Y)));
+                game.assetService.RemoveFromAssets(game.assetService.GetAsset((X, Y)));
                 game.boardManager.RemoveSymbolFromPlayArea((X, Y));
             }
         }
@@ -66,11 +66,11 @@ namespace DanielsHunter.App.Manager
         {
             AssetManager assetManager = new AssetManager(game);
             assetManager.DisposeAsset(game.userService.User);
-            ChangeUserKey(modification, game);
+            TryMoveUser(modification, game);
             assetManager.IntroduceAsset(game.userService.User);
         }
 
-        private void ChangeUserKey((int ofX, int ofY) modification, Game game)
+        private void TryMoveUser((int ofX, int ofY) modification, Game game)
         {
             if (user.X + modification.ofX >= 0 &&
                 user.X + modification.ofX < game.screenService.Screen.Board.Width &&

@@ -8,9 +8,9 @@
         public string[] CommStrip { get; set; }
         public string[] Footer { get; set; }
 
-        public Screen(int viewLength, Board board)
+        public Screen(Board board)
         {
-            View = new string[viewLength + 2];
+            View = new string[board.Height + 2];
             Header = new string[3];
             CommStrip = new string[4];
             Board = board;

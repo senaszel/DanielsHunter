@@ -36,7 +36,7 @@ namespace DanielsHunter.App.Manager
             }
             else if (game.userService.User.ChosenAction == UserActionEnum.SHOOT)
             {
-                game.userActionManager.Shoot(game,key);
+                game.userActionManager.Shoot(game, key);
                 game.actionService.ResetToMOVE();
                 game.screenManager.UpdateScreen(game);
             }

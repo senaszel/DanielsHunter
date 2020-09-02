@@ -16,12 +16,12 @@ namespace DanielsHunter.App.Concrete
             return Items.Where(x => x.Key == key).First();
         }
 
-        public void RemoveFromAssetsRepository(Asset asset)
+        public void RemoveFromAssets(Asset asset)
         {
             RemoveItem(asset);
         }
 
-        public void AddToAssetRepository(Asset asset)
+        public void AddToAssets(Asset asset)
         {
             AddItem(asset);
         }

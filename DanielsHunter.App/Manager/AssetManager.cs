@@ -20,13 +20,13 @@ namespace DanielsHunter.App.Manager
 
         public void IntroduceAsset(Asset asset)
         {
-            assetService.AddToAssetRepository(asset);
+            assetService.AddToAssets(asset);
             boardManager.InsertSymbolIntoPlayArea(asset);
         }
 
         public void DisposeAsset(Asset asset)
         {
-            assetService.RemoveFromAssetsRepository(asset);
+            assetService.RemoveFromAssets(asset);
             boardManager.RemoveSymbolFromPlayArea(asset.Key);
         }
 

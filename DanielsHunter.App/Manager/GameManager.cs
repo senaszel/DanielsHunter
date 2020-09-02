@@ -21,9 +21,7 @@ namespace DanielsHunter.App.Manager
             do
             {
                 UserInputManager.GetPlayersInput(game);
-                game.gameStateManager.AdvanceCounter(1);
-                game.userService.User.Provisions -= 1;
-                game.gameStateManager.CheckIfStarved(game);
+                                game.upkeepPhase.Conduct();
 
             } while (game.gameState.Outcome == GameOutcome.PENDING);
             return this;
@@ -33,12 +31,13 @@ namespace DanielsHunter.App.Manager
         {
             Board board = new Board(25, 50, 8);
             //Board board = new Board(10, 10, 8);
-            Screen screen = new Screen(25, board);
+            Screen screen = new Screen(board);
             game.screenService.AddItem(screen);
             game.screenManager = new ScreenManager(game.screenService.Screen);
             game.boardService.AddItem(board);
             game.boardManager = new BoardManager(game.boardService.Board);
             game.assetManager = new AssetManager(game);
+            game.upkeepPhase = new UpkeepPhase(game);
             User user = new User()
             {
                 Provisions = 101,
@@ -48,7 +47,7 @@ namespace DanielsHunter.App.Manager
             };
             game.userService.AddItem(user);
             game.userActionManager = new UserActionManager(game.userService.User);
-            game.assetService.AddToAssetRepository(game.userService.User);
+            game.assetService.AddToAssets(game.userService.User);
             game.actionService = new ActionService(game.userService.User);
 
             game.gameStateManager = new GameStateManager(game.gameState);
