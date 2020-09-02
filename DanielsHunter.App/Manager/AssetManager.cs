@@ -29,17 +29,5 @@ namespace DanielsHunter.App.Manager
             assetService.RemoveFromAssets(asset);
             boardManager.RemoveSymbolFromPlayArea(asset.Key);
         }
-
-        internal void InitialiseWithTrees(BoardService boardService, int numberOfTrees)
-        {
-            Random random = new Random();
-            for (int i = 0; i < numberOfTrees; i++)
-            {
-                int x = random.Next(boardService.Board.Width);
-                int y = random.Next(boardService.Board.Height);
-                Tree tree = new Tree("Tree-Created-OnInitialisation",x,y);
-                IntroduceAsset(tree);
-            }    
-        }
     }
 }

@@ -8,6 +8,7 @@ namespace DanielsHunter.App.Manager
 {
     public class ScreenManager
     {
+        // todo !!! Thats brilliant idea add more nested Services -- footer service, header service.
         private readonly Screen screen;
         public ScreenManager()
         {
@@ -47,7 +48,7 @@ namespace DanielsHunter.App.Manager
             game.screenManager.ShowScreen(game, displayFooter);
         }
 
-        public void ShowScreen(Game game, bool displayFooter = false)
+        private void ShowScreen(Game game, bool displayFooter = false)
         {
             if (!displayFooter)
             {
@@ -72,7 +73,7 @@ namespace DanielsHunter.App.Manager
             });
         }
 
-        public void GenerateView()
+        private void GenerateView()
         {
             int upperBoarder = 0;
             int lowerBoarder = screen.Board.Height + 1;
@@ -89,7 +90,7 @@ namespace DanielsHunter.App.Manager
             }
         }
 
-        public void GenerateUpperScreen(AssetService assetService)
+        private void GenerateUpperScreen(AssetService assetService)
         {
             GenerateHeader();
             GenerateCommStrip(assetService);
@@ -113,28 +114,5 @@ namespace DanielsHunter.App.Manager
             screen.CommStrip[2] = $"\t\t\tchosenAction : {user.ChosenAction}";
             screen.CommStrip[3] = $"Provision's Left: {user.Provisions}\t\t\t\t\tAquired Meat: {user.Meat}";
         }
-
-        public void InitialisePlayArea()
-        {
-            int upperBoarder = 0;
-            int lowerBoarder = screen.Board.Height + 1;
-            for (int i = upperBoarder; i <= lowerBoarder; i++)
-            {
-                if (i == upperBoarder || i == lowerBoarder)
-                {
-                    screen.View[i] = string.Concat(new string(' ', screen.Board.Offset), new string('#', screen.Board.Width + 2));
-                }
-                else
-                {
-                    if (i <= screen.Board.Width)
-                    {
-                        screen.Board.PlayArea[i - 1] = new string(' ', screen.Board.Width);
-                    }
-                    screen.View[i] = string.Concat(new string(' ', screen.Board.Offset), '#', screen.Board.PlayArea[i - 1], '#');
-                }
-            }
-        }
-
-
     }
 }

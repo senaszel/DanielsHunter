@@ -25,7 +25,5 @@ namespace DanielsHunter.App.Manager
         {
             board.PlayArea[key.y] = board.PlayArea[key.y].Insert(key.x, " ").Remove(key.x + 1, 1);
         }
-
-
     }
 }

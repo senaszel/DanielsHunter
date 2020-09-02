@@ -1,4 +1,5 @@
 ﻿using DanielsHunter.App.Concrete;
+using DanielsHunter.App.Helpers;
 using DanielsHunter.Domain.Entity;
 using DanielsHunter.Domain.Enum;
 
@@ -49,10 +50,9 @@ namespace DanielsHunter.App.Manager
             game.userActionManager = new UserActionManager(game.userService.User);
             game.assetService.AddToAssets(game.userService.User);
             game.actionService = new ActionService(game.userService.User);
-
             game.gameStateManager = new GameStateManager(game.gameState);
-            game.screenManager.InitialisePlayArea();
-            game.assetManager.InitialiseWithTrees(game.boardService,40);
+            new InitialisationHelper().InitialisePlayArea(game.screenService.Screen);
+            new InitialisationHelper().InitialiseWithTrees(game.boardService,game.assetManager, 40);
             new DanielManager(new Daniel()).PlaceDanielAtRandomPlaceOnTheBoard(game);
             game.screenManager.UpdateScreen(game);
             return this;
