@@ -4,17 +4,17 @@ using System.Text;
 
 namespace DanielsHunter.App.Concrete
 {
-    public class UpkeepPhase
+    public class UpkeepPhaseService
     {
         private readonly Game game;
-        public UpkeepPhase()
+        public UpkeepPhaseService()
         {
         }
-        public UpkeepPhase(Game game)
+        public UpkeepPhaseService(Game game)
         {
             this.game = game;
         }
-        internal void Conduct()
+        internal void Upkeep()
         {
             game.gameStateManager.AdvanceCounter(1);
             game.userService.User.Provisions -= 1;

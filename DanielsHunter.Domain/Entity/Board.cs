@@ -1,4 +1,6 @@
-﻿namespace DanielsHunter.Domain.Entity
+﻿using System.Linq;
+
+namespace DanielsHunter.Domain.Entity
 {
     public class Board : BaseEntity
     {
@@ -9,7 +11,7 @@
 
         public Board()
         {
-
+            this.PlayArea = new string[0];
         }
         public Board(int height, int width, int offset)
         {

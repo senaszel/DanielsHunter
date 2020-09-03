@@ -64,7 +64,7 @@ namespace DanielsHunter.App.Manager
 
         public void MoveUser((int ofX, int ofY) modification, Game game)
         {
-            AssetManager assetManager = new AssetManager(game);
+            AssetManager assetManager = new AssetManager(game.assetService,game.boardManager);
             assetManager.DisposeAsset(game.userService.User);
             TryMoveUser(modification, game);
             assetManager.IntroduceAsset(game.userService.User);

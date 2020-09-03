@@ -10,6 +10,7 @@ namespace DanielsHunter.App.Manager
 
         public BoardManager()
         {
+            this.board = new Board();
         }
         public BoardManager(Board board)
         {

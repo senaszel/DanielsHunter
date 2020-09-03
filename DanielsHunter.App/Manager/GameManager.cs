@@ -22,7 +22,7 @@ namespace DanielsHunter.App.Manager
             do
             {
                 UserInputManager.GetPlayersInput(game);
-                                game.upkeepPhase.Conduct();
+                                game.upkeepPhaseService.Upkeep();
 
             } while (game.gameState.Outcome == GameOutcome.PENDING);
             return this;
@@ -37,8 +37,8 @@ namespace DanielsHunter.App.Manager
             game.screenManager = new ScreenManager(game.screenService.Screen);
             game.boardService.AddItem(board);
             game.boardManager = new BoardManager(game.boardService.Board);
-            game.assetManager = new AssetManager(game);
-            game.upkeepPhase = new UpkeepPhase(game);
+            game.assetManager = new AssetManager(game.assetService,game.boardManager);
+            game.upkeepPhaseService = new UpkeepPhaseService(game);
             User user = new User()
             {
                 Provisions = 101,

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DanielsHunter.App.Helpers
 {
-    class InitialisationHelper
+    public class InitialisationHelper
     {
         public void InitialisePlayArea(Screen screen)
         {

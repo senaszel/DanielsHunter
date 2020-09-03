@@ -11,11 +11,13 @@ namespace DanielsHunter.App.Manager
         private readonly BoardManager boardManager;
         public AssetManager()
         {
+            assetService = new AssetService();
+            boardManager = new BoardManager();
         }
-        public AssetManager(Game game)
+        public AssetManager(AssetService assetService, BoardManager boardManager)
         {
-            this.assetService = game.assetService;
-            this.boardManager = game.boardManager;
+            this.assetService = assetService;
+            this.boardManager = boardManager;
         }
 
         public void IntroduceAsset(Asset asset)

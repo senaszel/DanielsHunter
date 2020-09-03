@@ -1,6 +1,7 @@
 ﻿using DanielsHunter.App.Common;
 using DanielsHunter.App.Concrete;
 using DanielsHunter.Domain.Entity;
+using DanielsHunter.Domain.Enum;
 using System;
 
 namespace DanielsHunter.App.Manager
@@ -38,7 +39,7 @@ namespace DanielsHunter.App.Manager
         public void RunDaniel(Game game)
         {
             System.Random random = new System.Random();
-            Daniel daniel = (Daniel)game.assetService.GetAsset("Daniel");
+            Daniel daniel = (Daniel)game.assetService.GetAsset(AssetsNamesEnum.Daniel.ToString());
             Daniel newDaniel = daniel;
             game.assetManager.DisposeAsset(daniel);
             User user = game.userService.User;
