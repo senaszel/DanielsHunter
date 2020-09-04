@@ -58,9 +58,9 @@ namespace DanielsHunter.App.Manager
             GeneratePlayArea(game);
             GenerateView();
             string screen = string.Join('\n', string.Join('\n', this.screen.Header), string.Join('\n', this.screen.CommStrip), string.Join('\n', this.screen.View), string.Join('\n', this.screen.Footer));
-            System.Console.Clear();
-            System.Console.CursorVisible = false;
-            System.Console.WriteLine(screen);
+            Console.Clear();
+            Console.CursorVisible = false;
+            Console.WriteLine(screen);
         }
 
         private void GeneratePlayArea(Game game)

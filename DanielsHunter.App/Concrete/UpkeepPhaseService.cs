@@ -14,13 +14,14 @@ namespace DanielsHunter.App.Concrete
         {
             this.game = game;
         }
+
         public void Upkeep()
         {
             ManageCounters();
             game.gameStateManager.CheckIfStarved(game);
         }
 
-        public void ManageCounters()
+        private void ManageCounters()
         {
             game.gameStateManager.AdvanceCounter(1);
             game.userService.User.Provisions -= 1;

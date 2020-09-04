@@ -1,5 +1,6 @@
 ﻿using DanielsHunter.App.Common;
 using DanielsHunter.Domain.Common;
+using System;
 using System.Linq;
 
 namespace DanielsHunter.App.Concrete
@@ -35,5 +36,6 @@ namespace DanielsHunter.App.Concrete
         {
             return Items.Any(item => item.Name == name);
         }
+             
     }
 }

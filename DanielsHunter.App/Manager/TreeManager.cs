@@ -3,7 +3,7 @@ using DanielsHunter.Domain.Entity;
 
 namespace DanielsHunter.App.Manager
 {
-    class TreeManager 
+    public class TreeManager 
     {
         private readonly Tree tree;
 
