@@ -5,14 +5,16 @@ using DanielsHunter.Domain.Entity;
 using DanielsHunter.Domain.Enum;
 using FluentAssertions;
 using Moq;
-using System.Linq;
+using System;
+using System.Collections.Generic;
+using System.Text;
 using Xunit;
 
 namespace DanielsHunter.App.Tests
 {
-    public class DanielManagerTests
+    public class UpkeepPhaseServiceTests
     {
-        public (Game, DanielManager) PrepareTestScenario()
+        public Game PrepareTestScenario()
         {
             var mockBoardObject = new Mock<Board>(5, 5, 5).Object;
             var mockUserObject = new Mock<User>(1, 1, 1, 1).Object;
@@ -31,41 +33,31 @@ namespace DanielsHunter.App.Tests
             var mockDanielManagerObject = new Mock<DanielManager>(mockDanielObject).Object;
             var mockAssetManagerObject = new Mock<AssetManager>(mockAssetServiceObject, mockBoardManagerObject).Object;
             var mockGameObject = new Mock<Game>().Object;
+            var mockUpkeepPhaseServiceObject = new Mock<UpkeepPhaseService>(mockGameObject).Object;
+            var mockGameStateObject = new Mock<GameState>().Object;
+            mockGameStateObject.TurnCounter = 1;
+            var mockGameStateManager = new Mock<GameStateManager>(mockGameStateObject).Object;
             mockGameObject.boardService = mockBoardServiceObject;
             mockGameObject.assetManager = mockAssetManagerObject;
             mockGameObject.assetService = mockAssetServiceObject;
             mockGameObject.boardService = mockBoardServiceObject;
             mockGameObject.userService = mockUserServiceObject;
-
-            return (mockGameObject, mockDanielManagerObject);
+            mockGameObject.upkeepPhaseService = mockUpkeepPhaseServiceObject;
+            mockGameObject.gameState = mockGameStateObject;
+            mockGameObject.gameStateManager = mockGameStateManager;
+            return mockGameObject;
         }
-
         [Fact]
-        public void PlaceDanielAtRandomPlaceOnTheBoard_Should_PlaceDanielAtRandomPlaceOnTheBoard()
+        public void Upkeep_Should_MakeAppropriateChangesToGameState()
         {
-            (Game game, DanielManager danielManager) = PrepareTestScenario();
+            Game testScenario = PrepareTestScenario();
+            int initialTurnCounter = testScenario.gameState.TurnCounter;
 
-            danielManager.PlaceDanielAtRandomPlaceOnTheBoard(game);
+            testScenario.upkeepPhaseService.ManageCounters();
 
-            game.boardService.Board
-                .PlayArea[game.assetService.GetAsset(AssetsNamesEnum.Daniel.ToString()).Y]
-                .Should().Contain(new Daniel().Symbol);
-        }
-
-        [Fact]
-        public void RunDaniel_Shuld_MakeDanielRun()
-        {
-            (Game game, DanielManager danielManager) = PrepareTestScenario();
-            (int x, int y) oldDanielsKey = game.assetService.GetAsset(AssetsNamesEnum.Daniel.ToString()).Key;
-            do
-            {
-                danielManager.RunDaniel(game);
-            } while (game.assetService.GetAsset(AssetsNamesEnum.Daniel.ToString()).Key.Equals(oldDanielsKey));
-            // This test may look odd because I call RunDaniel() as many times as is neccessary to achieve condition I am testing in Assert Phase. But the method itself may return situation identical to initial. So at least I check that it goes out of the loop. And Assets Count as well. 
-
-            game.assetService.GetAsset(AssetsNamesEnum.Daniel.ToString()).Key
-                .Should().NotBe(oldDanielsKey);
-            game.assetService.Items.Should().HaveCount(2);
+            testScenario.gameState.Outcome.Should().Be(GameOutcomeEnum.PENDING);
+            testScenario.gameState.TurnCounter.Should().BeGreaterThan(initialTurnCounter);
+            (testScenario.gameState.TurnCounter -= 1).Should().Be(initialTurnCounter);
         }
     }
 }

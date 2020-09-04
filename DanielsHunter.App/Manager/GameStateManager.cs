@@ -27,7 +27,7 @@ namespace DanielsHunter.App.Manager
             if (MeatCollectionCondition(game.userService.User.Meat))
             {
                 game.screenManager.UpdateScreen(game);
-                gameState.Outcome = GameOutcome.WON;
+                gameState.Outcome = GameOutcomeEnum.WON;
                 QuitService.Quit(game, ConsoleKey.Escape, 3);
             }
         }
@@ -46,7 +46,7 @@ namespace DanielsHunter.App.Manager
             if (AreProvisionsZeroOrLess(game.userService.User.Provisions))
             {
                 game.screenManager.UpdateScreen(game);
-                gameState.Outcome = GameOutcome.LOST;
+                gameState.Outcome = GameOutcomeEnum.LOST;
                 QuitService.Quit(game, ConsoleKey.Escape, 3);
             }
         }

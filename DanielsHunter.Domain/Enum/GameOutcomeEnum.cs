@@ -1,6 +1,6 @@
 ﻿namespace DanielsHunter.Domain.Enum
 {
-    public enum GameOutcome
+    public enum GameOutcomeEnum
     {
         PENDING,
         WON,

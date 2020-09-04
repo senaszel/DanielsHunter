@@ -5,13 +5,13 @@ namespace DanielsHunter.Domain.Entity
     public class GameState : BaseEntity
     {
         public int TurnCounter { get; set; }
-        public GameOutcome Outcome { get; set; }
+        public GameOutcomeEnum Outcome { get; set; }
 
 
         public GameState()
         {
             TurnCounter = 0;
-            Outcome = GameOutcome.PENDING;
+            Outcome = GameOutcomeEnum.PENDING;
         }
     }
 }

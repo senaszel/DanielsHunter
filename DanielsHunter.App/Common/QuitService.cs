@@ -8,7 +8,7 @@ namespace DanielsHunter.App.Common
     {
         public static void Quit(Game game, ConsoleKey whichKeyEscapes, int howManyTimes)
         {
-            string comment = game.gameState.Outcome == GameOutcome.LOST ? "Sorry," : "Congratulations";
+            string comment = game.gameState.Outcome == GameOutcomeEnum.LOST ? "Sorry," : "Congratulations";
             int exit3 = 0;
             ConsoleKey exit;
             do

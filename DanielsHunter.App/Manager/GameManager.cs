@@ -24,7 +24,7 @@ namespace DanielsHunter.App.Manager
                 UserInputManager.GetPlayersInput(game);
                                 game.upkeepPhaseService.Upkeep();
 
-            } while (game.gameState.Outcome == GameOutcome.PENDING);
+            } while (game.gameState.Outcome == GameOutcomeEnum.PENDING);
             return this;
         }
 
