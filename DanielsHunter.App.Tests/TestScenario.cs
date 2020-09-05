@@ -26,7 +26,7 @@ namespace DanielsHunter.App.Tests
             game.boardManager = new Mock<BoardManager>(board).Object;
             game.screenService = new Mock<ScreenService>().Object;
             game.screenService.AddItem(new Mock<Screen>(board).Object); 
-            game.screenManager = new Mock<ScreenManager>(game.screenService.GetFirstItem()).Object;
+            game.screenManager = new Mock<ScreenManager>(game.screenService.Screen).Object;
             InitialisationHelper initialisationHelper = new Mock<InitialisationHelper>().Object;
             initialisationHelper.InitialisePlayArea(game.screenService.Screen);
             User user = new Mock<User>(10, 10, 1, 1).Object;

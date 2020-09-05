@@ -39,7 +39,7 @@ namespace DanielsHunter.App.Manager
             (int x, int y) direction = DirectionMenager.PassDirection(key);
             if (direction.x == 0 && direction.y == 0) return;
             (int x, int y) bullet = game.userService.User.Key;
-            Board board = (Board)game.boardService.GetFirstItem();
+            Board board = game.boardService.Board;
             do
             {
                 bullet.x += direction.x;
@@ -82,11 +82,6 @@ namespace DanielsHunter.App.Manager
                     user.X += modification.ofX;
                     user.Y += modification.ofY;
                 }
-            }
-            else
-            {
-                game.assetManager.IntroduceAsset(game.userService.User);
-                UserInputManager.GetPlayersInput(game);
             }
         }
 

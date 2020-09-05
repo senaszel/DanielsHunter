@@ -17,7 +17,7 @@ namespace DanielsHunter.App.Manager
 
         public void PlaceDanielAtRandomPlaceOnTheBoard(Game game)
         {
-            System.Random random = new System.Random();
+            Random random = new Random();
             int randomX;
             int randomY;
             bool placePossible = false;
@@ -38,8 +38,8 @@ namespace DanielsHunter.App.Manager
 
         public void RunDaniel(Game game)
         {
-            System.Random random = new System.Random();
-            Daniel daniel = (Daniel)game.assetService.GetAsset(AssetsNamesEnum.Daniel.ToString());
+            Random random = new Random();
+            Daniel daniel = game.assetService.GetAsset(AssetsNamesEnum.Daniel.ToString())as Daniel;
             Daniel newDaniel = daniel;
             game.assetManager.DisposeAsset(daniel);
             User user = game.userService.User;

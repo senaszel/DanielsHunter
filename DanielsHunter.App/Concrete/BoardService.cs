@@ -1,13 +1,11 @@
 ﻿using DanielsHunter.App.Common;
 using DanielsHunter.Domain.Entity;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace DanielsHunter.App.Concrete
 {
     public class BoardService : BaseService<Board>
     {
-        public Board Board { get { return (Board)GetFirstItem(); } }
+        public Board Board { get { return Current as Board; } }
     }
 }

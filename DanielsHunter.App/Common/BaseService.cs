@@ -8,6 +8,14 @@ namespace DanielsHunter.App.Common
     public class BaseService<T> : IService<T> where T : BaseEntity
     {
         public List<T> Items { get; set; }
+        public BaseEntity Current { 
+            get { return Items.Where(item => item.IsCurrent == true).FirstOrDefault(); }
+            set { 
+                Current.IsCurrent = false;
+                Current = value;
+                Current.IsCurrent = true;
+            }
+        }
 
         public BaseService()
         {
@@ -17,12 +25,8 @@ namespace DanielsHunter.App.Common
         public int AddItem(T item)
         {
             Items.Add(item);
+            if (Items.Count == 1) { GetItem(0).IsCurrent = true; }
             return item.Id;
-        }
-
-        public BaseEntity GetFirstItem()
-        {
-            return Items.First();
         }
 
         public BaseEntity GetItem(int Id)

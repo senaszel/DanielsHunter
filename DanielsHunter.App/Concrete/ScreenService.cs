@@ -1,14 +1,11 @@
 ﻿using DanielsHunter.App.Common;
 using DanielsHunter.Domain.Entity;
-using DanielsHunter.Domain.Enum;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace DanielsHunter.App.Concrete
 {
-    public class ScreenService : BaseService<BaseEntity>
+    public class ScreenService : BaseService<Screen>
     {
-        public Screen Screen { get { return (Screen)GetFirstItem(); } }
+        public Screen Screen { get { return Current as Screen; } }
     }
 }
