@@ -10,6 +10,7 @@ namespace DanielsHunter.App.Concrete
         public GameState gameState;
         public GameStateManager gameStateManager;
         public UserService userService;
+        public UserActionService userActionService;
         public ActionService actionService;
         public UserActionManager userActionManager;
         public BoardService boardService;
@@ -21,6 +22,7 @@ namespace DanielsHunter.App.Concrete
         public Game()
         {
             gameState = new GameState();
+            userActionService = new UserActionService();
             userActionManager = new UserActionManager();
             screenService = new ScreenService();
             screenManager = new ScreenManager();

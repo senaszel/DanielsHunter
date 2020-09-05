@@ -39,6 +39,7 @@ namespace DanielsHunter.App.Manager
             game.boardManager = new BoardManager(game.boardService.Board);
             game.assetManager = new AssetManager(game.assetService,game.boardManager);
             game.upkeepPhaseService = new UpkeepPhaseService(game);
+            game.userActionService = new UserActionService(game);
             User user = new User()
             {
                 Provisions = 101,

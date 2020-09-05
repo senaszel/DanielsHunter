@@ -69,6 +69,7 @@ namespace DanielsHunter.App.Concrete
             Items[0].IsChosen = true;
             Items.Add(new UserAction(UserActionEnum.CHOP_TREE));
             Items.Add(new UserAction(UserActionEnum.SHOOT));
+            Items.Add(new UserAction(UserActionEnum.WAIT));
         }
 
     }

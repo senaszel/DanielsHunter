@@ -9,6 +9,7 @@ namespace DanielsHunter.Domain.Enum
         MOVE,
         CHOP_TREE,
         SHOOT,
+        WAIT,
         NO_CHANGE
     }
 }

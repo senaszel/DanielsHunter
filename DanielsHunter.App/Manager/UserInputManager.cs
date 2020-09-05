@@ -21,26 +21,9 @@ namespace DanielsHunter.App.Manager
                      key == ConsoleKey.W ||
                      key == ConsoleKey.NumPad5);
 
-            if (game.userService.User.ChosenAction == UserActionEnum.MOVE)
-            {
-                (int ofX, int ofY) modification = DirectionMenager.PassDirection(key);
-                game.userActionManager.MoveUser(modification, game);
-                game.gameStateManager.HasDanielBeenCought(game);
-                game.screenManager.UpdateScreen(game);
-            }
-            if (game.userService.User.ChosenAction == UserActionEnum.CHOP_TREE)
-            {
-                game.userActionManager.ChopTree(game, key);
-                game.actionService.ResetToMOVE();
-                game.screenManager.UpdateScreen(game);
-            }
-            else if (game.userService.User.ChosenAction == UserActionEnum.SHOOT)
-            {
-                game.userActionManager.Shoot(game, key);
-                game.actionService.ResetToMOVE();
-                game.screenManager.UpdateScreen(game);
-            }
-            new DanielManager((Daniel)game.assetService.GetAsset("Daniel")).RunDaniel(game);
+            game.userActionService.PerformUserAction(key);
         }
+
+        
     }
 }
