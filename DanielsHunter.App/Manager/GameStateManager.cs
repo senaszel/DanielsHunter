@@ -45,7 +45,6 @@ namespace DanielsHunter.App.Manager
         {
             if (AreProvisionsZeroOrLess(game.userService.User.Provisions))
             {
-                game.screenManager.UpdateScreen(game);
                 gameState.Outcome = GameOutcomeEnum.LOST;
                 QuitService.Quit(game, ConsoleKey.Escape, 3);
             }

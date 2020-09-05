@@ -21,9 +21,7 @@ namespace DanielsHunter.App.Manager
                      key == ConsoleKey.W ||
                      key == ConsoleKey.NumPad5);
 
-            game.userActionService.PerformUserAction(key);
+            game.userService.User.PressedKey = key;
         }
-
-        
     }
 }

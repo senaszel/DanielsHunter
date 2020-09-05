@@ -2,12 +2,14 @@
 
 namespace DanielsHunter.App.Common
 {
-    public static class TitleScreenService
+    public class TitleScreenService
     {
-        public static void TitleScreen()
+        public void TitleScreen()
         {
             Console.Clear();
-            Console.WriteLine("\r\n\r\n\r\n\r\n\r\n\r\n\t\t\t\tD A N I E L S   H U N T E R");
+            string title = "D A N I E L S   H U N T E R";
+            Console.SetCursorPosition(Console.WindowWidth / 2 - title.Length, Console.WindowHeight / 2);
+            Console.WriteLine(title);
             Console.ReadKey(true);
         }
     }

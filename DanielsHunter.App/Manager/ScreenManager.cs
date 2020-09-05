@@ -57,10 +57,25 @@ namespace DanielsHunter.App.Manager
 
             GeneratePlayArea(game);
             GenerateView();
-            string screen = string.Join('\n', string.Join('\n', this.screen.Header), string.Join('\n', this.screen.CommStrip), string.Join('\n', this.screen.View), string.Join('\n', this.screen.Footer));
+
             Console.Clear();
             Console.CursorVisible = false;
-            Console.WriteLine(screen);
+            int counter = 0;
+            counter = PrintEachLine(counter, screen.Header);
+            counter = PrintEachLine(counter, screen.CommStrip);
+            counter = PrintEachLine(counter, screen.View);
+            counter = PrintEachLine(counter, screen.Footer);
+        }
+
+        private int PrintEachLine(int counter, string[] arr)
+        {
+            arr.ToList().ForEach(x =>
+            {
+                Console.SetCursorPosition(Console.WindowWidth / 2 - screen.Board.Width, (Console.WindowHeight- screen.totalHeight) / 2 + counter);
+                counter++;
+                Console.WriteLine(x);
+            });
+            return counter;
         }
 
         private void GeneratePlayArea(Game game)
@@ -98,21 +113,23 @@ namespace DanielsHunter.App.Manager
 
         private void GenerateHeader()
         {
-            screen.Header[0] = "\r\n";
+            screen.Header[0] = string.Empty;
             screen.Header[1] = string.Concat(new string(' ', 20), "D A N I E L S   H U N T E R :");
-            screen.Header[2] = "\r\n";
+            screen.Header[2] = string.Empty;
+            screen.Header[3] = string.Empty;
         }
 
         private void GenerateCommStrip(AssetService assetService)
         {
             Daniel daniel = (Daniel)assetService.GetAsset("Daniel");
-
             User user = (User)assetService.GetAsset("User");
 
             screen.CommStrip[0] = $"\t\t\tDaniel\tX : {daniel.X}\tY : {daniel.Y}";
             screen.CommStrip[1] = $"\t\t\tUser\tX : {user.X}\tY : {user.Y}";
             screen.CommStrip[2] = $"\t\t\tchosenAction : {user.ChosenAction}";
-            screen.CommStrip[3] = $"Provision's Left: {user.Provisions}\t\t\t\t\tAquired Meat: {user.Meat}";
+            screen.CommStrip[3] = string.Empty;
+            screen.CommStrip[4] = $"Provision's Left: {user.Provisions}\t\t\t\t\tAquired Meat: {user.Meat}";
+            screen.CommStrip[5] = string.Empty;
         }
     }
 }

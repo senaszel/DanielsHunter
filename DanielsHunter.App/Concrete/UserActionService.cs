@@ -16,9 +16,9 @@ namespace DanielsHunter.App.Concrete
         {
             this.game = game;
         }
-        public void PerformUserAction(ConsoleKey key)
+        public void PerformUserAction()
         {
-
+            var key = game.userService.User.PressedKey;
             switch (game.userService.User.ChosenAction)
             {
                 case UserActionEnum.MOVE:
@@ -33,8 +33,7 @@ namespace DanielsHunter.App.Concrete
                 case UserActionEnum.WAIT:
                     Wait();
                     break;
-            }
-            game.screenManager.UpdateScreen(game);
+            }            
         }
 
         private void Wait()

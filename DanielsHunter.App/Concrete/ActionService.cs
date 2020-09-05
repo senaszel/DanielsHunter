@@ -2,7 +2,6 @@
 using DanielsHunter.Domain.Entity;
 using DanielsHunter.Domain.Enum;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 
 namespace DanielsHunter.App.Concrete
 {

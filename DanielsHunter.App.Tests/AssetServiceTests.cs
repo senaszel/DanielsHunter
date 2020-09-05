@@ -1,4 +1,6 @@
-﻿using DanielsHunter.App.Concrete;
+﻿using DanielsHunter.App.Common;
+using DanielsHunter.App.Concrete;
+using DanielsHunter.App.Manager;
 using DanielsHunter.Domain.Common;
 using DanielsHunter.Domain.Entity;
 using FluentAssertions;

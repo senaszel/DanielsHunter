@@ -1,5 +1,6 @@
 ﻿using DanielsHunter.Domain.Common;
 using DanielsHunter.Domain.Enum;
+using System;
 
 namespace DanielsHunter.Domain.Entity
 {
@@ -8,6 +9,7 @@ namespace DanielsHunter.Domain.Entity
         public int Meat { get; set; }
         public int Provisions { get; set; }
         public UserActionEnum ChosenAction { get; set; }
+        public ConsoleKey PressedKey { get; set; }
 
         public User()
         {
