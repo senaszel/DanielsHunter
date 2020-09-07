@@ -1,7 +1,4 @@
-﻿using DanielsHunter.App.Common;
-using DanielsHunter.App.Concrete;
-using DanielsHunter.Domain.Entity;
-using DanielsHunter.Domain.Enum;
+﻿using DanielsHunter.App.Concrete;
 using System;
 
 namespace DanielsHunter.App.Manager
@@ -14,7 +11,7 @@ namespace DanielsHunter.App.Manager
             do
             {
                 key = game.userActionManager.ChooseAction(game.actionService);
-                if (key == ConsoleKey.Escape) { Environment.Exit(0); }
+                if (key == ConsoleKey.Escape) { new EscapeService(game).Run(); key = ConsoleKey.NumPad5; }
                 game.screenManager.UpdateScreen(game);
 
             } while (key == ConsoleKey.Q ||

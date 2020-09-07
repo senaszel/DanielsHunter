@@ -1,4 +1,5 @@
 ﻿using DanielsHunter.Domain.Entity;
+using DanielsHunter.Domain.Enum;
 
 namespace DanielsHunter.Domain.Common
 {

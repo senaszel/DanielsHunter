@@ -10,8 +10,8 @@ namespace DanielsHunter
         static void Main()
         {
             new TitleScreenService().FullScreenWarning();
-            //new IntroService().Intro();
-            //new TitleScreenService().TitleScreen();
+            new IntroService().Intro();
+            new TitleScreenService().TitleScreen();
 
             Game newGame = new Game();
             new InitialisationHelper().Set(newGame);

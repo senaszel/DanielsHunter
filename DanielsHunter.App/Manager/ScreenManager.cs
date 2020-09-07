@@ -1,7 +1,6 @@
 ﻿using DanielsHunter.App.Concrete;
 using DanielsHunter.Domain.Entity;
 using System;
-using System.ComponentModel;
 using System.Linq;
 
 namespace DanielsHunter.App.Manager

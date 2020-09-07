@@ -8,7 +8,7 @@ namespace DanielsHunter.App.Concrete
 {
     public class UserActionService
     {
-        private Game game;
+        private readonly Game game;
         public UserActionService()
         {
         }
